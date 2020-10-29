@@ -1,0 +1,34 @@
+{% load static %}
+
+<div class="card profile-card mb-2 p-2" onclick="window.location.href='{{ u.get_absolute_url }}'">
+  <div class="d-table table-fixed col-12 width-full no-gutters">
+
+    <div class="d-table-cell col-2" style="vertical-align: middle;">
+      <span class="initial-round">{{ u.initial }}</span>
+    </div>
+
+    <div class="d-table-cell col-7 v-align-top">
+      <a class="d-inline-block no-underline" href="{{ u.get_absolute_url }}">
+        <span class="link-gray-dark text-bold">{{ u.get_full_name }}</span>
+        <span class="text-gray">({{ u.get_username|truncatechars:18 }})</span>
+      </a>
+
+      {% if u.bio %}
+      <div class="mb-2">
+        <div>{{ u.bio }}</div>
+      </div>
+      {% endif %}
+
+      {% if u.website %}
+      <div class="mb-2">
+        <div>{{ u.website }}</div>
+      </div>
+      {% endif %}
+
+
+
+    </div>
+
+  </div>
+
+</div>

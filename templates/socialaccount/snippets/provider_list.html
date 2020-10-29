@@ -1,0 +1,23 @@
+<!-- https://github.com/pennersr/django-allauth/blob/master/allauth/templates/socialaccount/snippets/provider_list.html -->
+{% load socialaccount %}
+
+{% get_providers as socialaccount_providers %}
+
+{% for provider in socialaccount_providers %}
+{% if provider.id == "openid" %}
+{% for brand in provider.get_brands %}
+<a title="{{brand.name}}" class="socialaccount_provider {{provider.id}} {{brand.id}}"
+  href="{% provider_login_url provider.id openid=brand.openid_url process=process %}">{{brand.name}}</a>
+{% endfor %}
+{% endif %}
+<a title="{{provider.name}}" class="btn btn-primary btn-block {{provider.id}}"
+  href="{% provider_login_url provider.id process=process scope=scope auth_params=auth_params %}">
+  {% if provider.name == 'Google' %}{% endif %}
+
+  &nbsp;&nbsp;
+  <!-- Continue with -->
+  {{ text }} {{provider.name}}</a>
+{% endfor %}
+<!-- <p class="text-center mt-3">Or {{ text|lower }} email</p> -->
+<hr class="divider-or">
+</hr>

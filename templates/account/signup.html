@@ -1,0 +1,57 @@
+{% extends "account/base.html" %}
+{% load static %}
+{% load i18n %}
+{% load account socialaccount %}
+{% load crispy_forms_tags %}
+
+{% block title %}Sign up{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center mt-3">
+	<div class="col-md-5 col-md-offset-4">
+		<h3>Join Side Project List</h3>
+
+		{% get_providers as socialaccount_providers %}
+		{% if socialaccount_providers %}
+		<div>
+			{% include "socialaccount/snippets/provider_list.html" with process="login" text="Sign up with" %}
+		</div>
+		<hr>
+		{% endif %}
+
+		<form class="signup" id="signup_form" method="post" action="{% url 'account_signup' %}">
+			{% csrf_token %}
+			{{ form|crispy }}
+			{% if redirect_field_value %}
+			<input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
+			{% endif %}
+			<button type="submit" class="btn btn-primary btn-block" id="signupBtn">Create account</button>
+		</form>
+
+		<p class="text-center mt-3">Have an account? <a href="{{ login_url }}">Log in</a></p>
+
+	</div>
+</div>
+
+{% endblock %}
+
+{% block javascript %}
+<script src="{% static 'js/utils.js' %}"></script>
+<script>
+	document.addEventListener('DOMContentLoaded', function () {
+		addShowPassword("#id_password1")
+
+		const emailInput = document.querySelector("#id_email")
+		emailInput.focus()
+	})
+
+	const signupBtn = document.querySelector("#signupBtn")
+	signupBtn.addEventListener('click', function () {
+		if (this.form && isFormHtml5Valid(this.form, 'input')) {
+			this.disabled = true
+			this.textContent = "Creating..."
+			this.form.submit()
+		}
+	})
+</script>
+{% endblock javascript %}

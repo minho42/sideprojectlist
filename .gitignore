@@ -1,0 +1,17 @@
+venv/
+.env
+*.pyc
+db.sqlite3
+.vscode/
+.DS_Store
+.coverage
+.pytest_cache/
+__pycache__/
+*.log
+media/
+.idea/
+credentials.json
+token.json
+.flake8
+staticfiles/
+pytest.ini

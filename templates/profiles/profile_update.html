@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+{% block title %}Update{% endblock %}
+
+{% block content %}
+<!-- Main jumbotron for a primary marketing message or call to action -->
+<div class="row justify-content-center mt-3">
+	<div class="col-md-6">
+		<div>
+			<h3 class="text-center">Edit profile</h3>
+			<form action="{% url 'profiles:update' request.user.slug %}" method="POST" enctype="multipart/form-data">
+				{% csrf_token %}
+				{{ form|crispy }}
+
+				<div class="">
+					{% if not user.is_loggedin_with_socialauth %}
+					<a href="{% url 'profiles:change_password' request.user.slug %}">Change password</a>
+					{% endif %}
+				</div>
+
+				{% if form %}
+				<div class="text-center my-4">
+					<button type="submit" class="btn btn-primary" id="profileUpdateBtn">Save changes</button>
+				</div>
+				{% endif %}
+
+				<div class="">
+					<a href=" {% url 'profiles:delete' request.user.slug %}" class="text-danger">Delete account</a>
+				</div>
+
+			</form>
+		</div>
+
+	</div>
+</div>
+{% endblock content %}
+
+{% block javascript %}
+<script src="{% static 'js/utils.js' %}"></script>
+<script>
+	const profileUpdateBtn = document.querySelector("#profileUpdateBtn")
+	profileUpdateBtn.addEventListener('click', function () {
+		if (this.form && isFormHtml5Valid(this.form, 'input')) {
+			this.disabled = true
+			this.textContent = "Saving..."
+			this.form.submit()
+		}
+	})
+</script>
+{% endblock javascript %}
