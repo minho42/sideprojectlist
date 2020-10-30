@@ -15,3 +15,5 @@ token.json
 .flake8
 staticfiles/
 pytest.ini
+node_modules/
+backup.sql
