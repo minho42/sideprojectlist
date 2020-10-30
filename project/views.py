@@ -40,3 +40,13 @@ class ProjectCreateView(LoginRequiredMixin, CreateView):
     ]
     # form_class = ProjectCreateForm
     template_name = "project/project_create.html"
+
+
+class ProjectDetailView(LoginRequiredMixin, DetailView):
+    model = Project
+    template_name = "project/project_detail.html"
+
+    def get_queryset(self):
+        qs = super().get_queryset()
+        qs = qs.filter(slug=self.kwargs["slug"])
+        return qs
