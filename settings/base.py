@@ -168,7 +168,7 @@ MEDIA_ROOT = BASE_DIR / "media"
 
 
 EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
-DEFAULT_FROM_EMAIL = "sideprojectlist <sideprojectlist@gmail.com>"
+DEFAULT_FROM_EMAIL = "Side Project List <sideprojectlist@gmail.com>"
 # Sendgrid
 # https://sendgrid.com/docs/for-developers/sending-email/django/
 EMAIL_HOST = "smtp.sendgrid.net"
