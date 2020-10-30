@@ -8,25 +8,22 @@
     <h3 class="text-center">Projects ({{ projects|length }})</h3>
     {% if projects %}
     {% for project in projects %}
-    <!-- <a href="{{ project.link }}" target="_blank" rel="noopener noreferrer" class="card-link"> -->
-    <a href="{{ project.link }}" target="_blank" rel="noopener noreferrer" class="card-link">
+    <a href="{{ project.slug }}" class="card-link">
       <div class="card card-sm">
         <div class="card-body">
           <div class="card-title h5">
             {{ project.maker_fullname }}
-            (@{{ project.twitter_handle }})
+            <!-- (@{{ project.twitter_handle }}) -->
           </div>
           <div class="card-subtitle mb-2 text-muted">
+            {{ project.description }}
             {{ project.link }}
           </div>
-          <div class="card-text">
-            {{ project.description }}
-          </div>
-          <div class="h6">
-            <button class="btn btn-secondary">
-              {{ project.upvote_count }}
-            </button>
-          </div>
+        </div>
+        <div class="card-upvote h6">
+          <button class="btn btn-white">
+            {{ project.upvote_count }}
+          </button>
         </div>
       </div>
     </a>
