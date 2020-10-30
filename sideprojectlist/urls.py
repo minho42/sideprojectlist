@@ -24,7 +24,6 @@ urlpatterns = [
     path("aaronisawesometoo/", admin.site.urls),
     path("accounts/", include("allauth.urls")),
     path("u/", include("profiles.urls")),
-    path("p/", include("project.urls")),
     path("about/", views.about, name="about"),
     path("terms/", views.terms, name="terms"),
     path("privacy/", views.privacy, name="privacy"),
@@ -34,7 +33,8 @@ urlpatterns = [
         views.ChartDataSignupCount.as_view(),
         name="api_signup_count",
     ),
-    path("", views.home, name="home"),
+    path("", include("project.urls")),
+    # path("", views.home, name="home"),
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 
 if settings.DEBUG:
