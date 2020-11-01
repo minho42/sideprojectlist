@@ -14,15 +14,13 @@
 {% endblock stylesheet%}
 
 {% block content %}
-<div class="row justify-content-center mt-3" id="charts">
-  <h3>Users ({{ user_count }})</h3>
-  <div class="col-md-12">
-    <span>
-      <div class="signupcount-linechart-container" style="height: 180px;">
-        <signupcount-linechart :name='signupCountName' :labels='signupDateLabels' :series='signupCountSeries'>
-        </signupcount-linechart>
-      </div>
-    </span>
+<div id="charts" class="">
+  <div class="text-2xl font-semibold">Users ({{ user_count }})</div>
+  <div class="">
+    <div class="signupcount-linechart-container" style="height: 180px;">
+      <signupcount-linechart :name='signupCountName' :labels='signupDateLabels' :series='signupCountSeries'>
+      </signupcount-linechart>
+    </div>
   </div>
 </div>
 

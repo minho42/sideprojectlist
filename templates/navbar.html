@@ -1,81 +1,81 @@
 {% load static %}
 
-
-<!-- <nav id="notification" class="navbar navbar-expand  -->
-<!-- {% if request.user.is_superuser %} navbar-dark bg-dark {% else %} navbar-light {% endif %}"> -->
-<!-- <nav class="navbar navbar-expand navbar-dark bg-dark"> -->
-<nav class="navbar navbar-expand navbar-light">
-  <div class="container">
-
-    <a class="navbar-brand" href="{% url 'project:list' %}">
-      <span class="d-none d-md-inline">Side Project List</span>
-      <span class="d-md-none">SP List</span>
-    </a>
-
-    <div class="collapse navbar-collapse" id="navbarNavDropdown">
-      <ul class="nav navbar-nav ml-auto">
-
-        {% if request.user.is_authenticated %}
-        <li class="nav-item">
-          <a class="nav-link" href="{% url 'project:add' %}">Post</a>
-        </li>
-        {% endif %}
-
-      </ul>
-      <ul class="nav navbar-nav ml-auto">
-
-        {% if request.user.is_authenticated %}
-        <li class="nav-item dropdown">
-
-
-          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
-            aria-haspopup="true" aria-expanded="false">
-            <span class="initial-round initial-round-sm text-black">{{ user.initial }}</span>
-          </a>
-          <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
-            {% if request.user.is_superuser %}
-            <a class="dropdown-item" href="{% url 'admin:index' %}" target="_blank" rel="noopener noreferrer">
-              Admin
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
-                <path
-                  d="M11 3a1 1 0 100 2h2.586l-6.293 6.293a1 1 0 101.414 1.414L15 6.414V9a1 1 0 102 0V4a1 1 0 00-1-1h-5z" />
-                <path d="M5 5a2 2 0 00-2 2v8a2 2 0 002 2h8a2 2 0 002-2v-3a1 1 0 10-2 0v3H5V7h3a1 1 0 000-2H5z" />
-              </svg>
-            </a>
-            <div class="dropdown-divider"></div>
-            {% endif %}
-
-            {% if request.user.is_staff %}
-            <a class="dropdown-item" href="{% url 'dashboard' %}">Dashboard</a>
-            <div class="dropdown-divider"></div>
-            {% endif %}
-
-            <a class="dropdown-item" href="{% url 'profiles:user' request.user.slug %}">
-              Hi, <b>{{ user.firstname_or_username }}</b>
-              <div class="text-muted">Profile</div>
-            </a>
-
-            <div class="dropdown-divider"></div>
-            <a class="dropdown-item" href="{% url 'account_logout' %}">
-              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                  d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
-              </svg>
-              Log out</a>
-          </div>
-        </li>
-
-        {% else %}
-        <li class="nav-item">
-          <a class="nav-link signup-highlight" href="{% url 'account_signup' %}">Sign up</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="{% url 'account_login' %}">Log in</a>
-        </li>
-        {% endif %}
-
-        <div class="dropdown-divider"></div>
-      </ul>
+<nav id="navbar">
+  <header class="bg-white sm:flex sm:justify-between border-b border-gray-300 shadow-sm">
+    <div class="flex items-center justify-between px-4 py-3">
+      <div class="">
+        <!-- <img class="h-8" src="" alt="Logo"> -->
+      </div>
+      <div class="bg-indigo-500 text-white rounded-full p-1 font-bold text-lg">
+        <a href="{% url 'project:list' %}">
+          SPL
+        </a>
+      </div>
+      <div class="sm:hidden">
+        <button @click="isOpen = !isOpen" type="button"
+          class="block text-gray-600 hover:text-black focus:text-black focus:outline-none">
+          <svg class="h-5 w-5 fill-current" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+            stroke="currentColor">
+            <!-- Hamburger menu -->
+            <path v-if="!isOpen" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+              d="M4 6h16M4 12h16M4 18h16" />
+            <!-- X -->
+            <path v-if="isOpen" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+              d="M6 18L18 6M6 6l12 12" />
+          </svg>
+        </button>
+      </div>
     </div>
-  </div>
+    <div :class="isOpen ? 'block' : 'hidden'" class="px-2 py-2 sm:flex sm:items-center">
+      {% if request.user.is_superuser %}
+      <a href="{% url 'admin:index' %}" target="_blank" rel="noopener noreferrer"
+        class="block px-3 py-2 ml-2 text-gray-700 text-center rounded-lg hover:bg-gray-200">
+        Admin
+      </a>
+      {% endif %}
+
+      {% if request.user.is_staff %}
+      <a href="{% url 'dashboard' %}"
+        class="block px-3 py-2 ml-2 text-gray-700 text-center rounded-lg hover:bg-gray-200">
+        Dashboard
+      </a>
+      {% endif %}
+
+      {% if request.user.is_authenticated %}
+      <a href="{% url 'profiles:user' request.user.slug %}"
+        class="block px-3 py-2 ml-2 text-gray-700 text-center rounded-lg hover:bg-gray-200">
+        Hi, <span class="font-semibold">
+          {{ user.firstname_or_username }}
+        </span>
+      </a>
+
+      <a href="{% url 'project:add' %}"
+        class="block px-3 py-2 ml-2 text-gray-700 text-center rounded-lg hover:bg-gray-200">
+        Submit
+      </a>
+
+
+      <a href="{% url 'account_logout' %}"
+        class="block px-3 py-2 ml-2  text-gray-700  text-center rounded-lg hover:bg-gray-200 sm:mt-0">
+        Log out</a>
+      {% else %}
+      <a href="{% url 'about' %}"
+        class="block px-3 py-2 ml-2 text-gray-700  text-center rounded-lg hover:bg-gray-200 sm:mt-0">About</a>
+
+      <a href="{% url 'account_signup' %}"
+        class="block px-3 py-2 ml-2 text-gray-700 font-semibold text-center rounded-lg hover:bg-gray-200 border-2 border-indigo-400">Sign
+        up</a>
+      <a href="{% url 'account_login' %}"
+        class="block px-3 py-2 ml-2  text-gray-700  text-center rounded-lg hover:bg-gray-200 sm:mt-0">Log
+        in</a>
+
+      {% endif %}
+
+
+    </div>
+  </header>
 </nav>
+
+{% block javascript %}
+<script src="{% static 'js/navbar.js' %}"></script>
+{% endblock javascript %}

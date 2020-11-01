@@ -3,44 +3,63 @@
 {% block title %}Projects{% endblock title %}
 
 {% block content %}
-<div id="project-list" class="row justify-content-center mt-3">
-  <div class="col-md-6">
-    <h3 class="text-center">Projects ({{ projects|length }})</h3>
+<div id="project-list" class="flex items-center justify-center">
+  <div class="flex-1 mx-2">
+    <h1 class="text-2xl font-semibold ml-4 pt-4 pb-2">Projects ({{ projects|length }})</h1>
+
     {% if projects %}
     {% for project in projects %}
-    <a href="{{ project.slug }}" class="card-link">
-      <div class="card card-sm">
-        <div class="card-body">
-          <div class="card-title h5">
-            {{ project.maker_fullname }}
-            <!-- (@{{ project.twitter_handle }}) -->
+    <div class=" bg-white border-b border-gray-300">
+      <a href="{{ project.slug }}" class="">
+        <div class="flex items-center justify-between px-5 py-3">
+          <div class="">
+            <img class="w-5 h-5" src="" alt="screenshot">
           </div>
-          <div class="card-subtitle mb-2 text-muted">
-            {{ project.description }}
-            {{ project.link }}
+
+          <div class="">
+            <div class="text-lg font-semibold">
+              {{ project.maker_fullname }}
+              <!-- (@{{ project.twitter_handle }}) -->
+            </div>
+            <div class="">
+              {{ project.link }}
+            </div>
+            <div class="">
+              comments...
+            </div>
+            <div class="mt-3 inline-flex bg-green-200 rounded-md px-2 text-sm text-gray-700 capitalize hover:underline">
+              categories...
+            </div>
+          </div>
+          <div class="">
+            <button
+              class="w-16 h-20 text-sm font-semibold border border-gray-400 rounded hover:border-indigo-500 hover:shadow">
+              <div class="flex flex-col items-center">
+                <span class="">
+                  <svg class="w-3 h-3" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+                    <path fill-rule="evenodd"
+                      d="M3.293 9.707a1 1 0 010-1.414l6-6a1 1 0 011.414 0l6 6a1 1 0 01-1.414 1.414L11 5.414V17a1 1 0 11-2 0V5.414L4.707 9.707a1 1 0 01-1.414 0z"
+                      clip-rule="evenodd" />
+                  </svg>
+                </span>
+                <span class="">
+                  {{ project.upvote_count }}
+                </span>
+              </div>
+            </button>
           </div>
         </div>
-        <div class="card-upvote h6">
-          <button class="btn btn-white">
-            {{ project.upvote_count }}
-          </button>
-        </div>
-      </div>
-    </a>
+      </a>
+
+    </div>
+
     {% endfor %}
 
     {% else %}
-    <div class="text-center">
-      <h5>No projects found</h5>
+    <div class="">
+      <h1>No projects found</h1>
     </div>
     {% endif %}
-
-    <!-- <div class="text-center">
-      <a href="{% url 'project:add' %}" class="btn btn-primary">Submit a project</a>
-    </div> -->
   </div>
-
-
-
 </div>
 {% endblock content %}

@@ -113,3 +113,7 @@ class User(AbstractUser):
 
     def is_loggedin_with_socialauth(self):
         return self.is_authenticated and self.is_signedup_with_socialauth()
+
+
+class Follow:
+    pass

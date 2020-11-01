@@ -8,15 +8,16 @@ class Project(TimeStampedModel):
     slug = models.SlugField(max_length=100, allow_unicode=True)
     link = models.URLField(max_length=200)
     maker_fullname = models.CharField(max_length=100)
-    twitter_handle = models.CharField(max_length=20)
-    github_handle = models.CharField(max_length=20)
-    producthunt_handle = models.CharField(max_length=20)
+    twitter_handle = models.CharField(max_length=20, null=True)
+    github_handle = models.CharField(max_length=20, null=True)
+    producthunt_handle = models.CharField(max_length=20, null=True)
     is_approved = models.BooleanField(default=True)
     # description
     # category dev/design/...
     # avatar
     # description
     # owner
+    # submitted_by
 
     def __str__(self):
         return f"{self.twitter_handle}: {self.link}"
@@ -35,7 +36,7 @@ class Project(TimeStampedModel):
     def upvote_count(self):
         import random
 
-        return random.randint(0, 200)
+        return random.randint(0, 1500)
 
 
 class Upvote(models.Model):

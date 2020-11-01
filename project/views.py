@@ -20,7 +20,7 @@ from django.views.generic import (
 from .models import Project
 
 
-class ProjectListView(LoginRequiredMixin, ListView):
+class ProjectListView(ListView):
     model = Project
     template_name = "project/project_list.html"
     context_object_name = "projects"

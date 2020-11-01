@@ -7,9 +7,9 @@
 {% block title %}Sign up{% endblock %}
 
 {% block content %}
-<div class="row justify-content-center mt-3">
-	<div class="col-md-5 col-md-offset-4">
-		<h3>Join Side Project List</h3>
+<div class="">
+	<div class="flex items-center justify-center">
+		<div class="text-2xl font-semibold">Join</div>
 
 		{% get_providers as socialaccount_providers %}
 		{% if socialaccount_providers %}
@@ -19,16 +19,20 @@
 		<hr>
 		{% endif %}
 
-		<form class="signup" id="signup_form" method="post" action="{% url 'account_signup' %}">
+		<p>description...</p>
+
+		<form class="" id="signup_form" method="post" action="{% url 'account_signup' %}">
 			{% csrf_token %}
 			{{ form|crispy }}
 			{% if redirect_field_value %}
 			<input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
 			{% endif %}
-			<button type="submit" class="btn btn-primary btn-block" id="signupBtn">Create account</button>
+			<button type="submit"
+				class="bg-indigo-600 hover:bg-indigo-500 text-white font-medium px-4 py-2 rounded tracking-wide"
+				id="signupBtn">Create account</button>
 		</form>
 
-		<p class="text-center mt-3">Have an account? <a href="{{ login_url }}">Log in</a></p>
+		<p class="">Have an account? <a href="{{ login_url }}" class="text-indigo-500 hover:text-indigo-600">Log in</a></p>
 
 	</div>
 </div>
