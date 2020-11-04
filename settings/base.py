@@ -15,7 +15,7 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 # # <-- added for bebug_toolbar to appear
-# INTERNAL_IPS = ["localhost", "127.0.0.1"]
+INTERNAL_IPS = ["localhost", "127.0.0.1"]
 
 
 INSTALLED_APPS = [

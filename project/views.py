@@ -1,12 +1,13 @@
-from django.utils.html import format_html
 from django import forms
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db import IntegrityError
+from django.db.models import Count
 from django.http import HttpResponseRedirect
-from django.shortcuts import get_object_or_404, render, redirect
+from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse, reverse_lazy
+from django.utils.html import format_html
 from django.views.generic import (
     CreateView,
     DeleteView,
@@ -17,7 +18,7 @@ from django.views.generic import (
 )
 
 # from .forms import DistrictCreateForm, DistrictPasswordChangeForm, DistrictUpdateForm
-from .models import Project
+from .models import Project, Upvote
 
 
 class ProjectListView(ListView):
@@ -26,7 +27,9 @@ class ProjectListView(ListView):
     context_object_name = "projects"
 
     def get_queryset(self):
-        return Project.objects.filter(is_approved=True).order_by("-created")
+        return sorted(
+            Project.objects.order_by("-created"), key=lambda k: -k.upvote_count
+        )
 
 
 class ProjectCreateView(LoginRequiredMixin, CreateView):
