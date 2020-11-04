@@ -3,6 +3,7 @@
 {% load i18n %}
 {% load account socialaccount %}
 {% load crispy_forms_tags %}
+{% load tailwind_filters %}
 
 {% block title %}Log in{% endblock %}
 
@@ -24,7 +25,7 @@
 
     {% endif %}
 
-    <form class="login" method="POST" action="{% url 'account_login' %}">
+    <form class="" method="POST" action="{% url 'account_login' %}">
       {% csrf_token %}
       <!-- {{ form.as_p }} -->
       {{ form|crispy }}
@@ -32,18 +33,19 @@
       <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
       {% endif %}
       <div class="text-center">
-        <button class="bg-indigo-600 hover:bg-indigo-500 text-white font-medium px-4 py-2 rounded tracking-wide"
+        <button class="w-full bg-indigo-600 hover:bg-indigo-500 text-white font-medium px-4 py-2 rounded tracking-wide"
           type="submit" id="loginBtn">Log in</button>
       </div>
 
     </form>
 
     <div class="text-center">
-      <p class="mt-3"><a class="text-indigo-500 hover:text-indigo-600" href="{% url 'account_reset_password' %}">Forgot
+      <p class="mt-3"><a class="text-indigo-500 hover:text-indigo-600 hover:underline"
+          href="{% url 'account_reset_password' %}">Forgot
           Password?</a>
       </p>
       <p class="mt-3">Don't have an account? <a href="{{ signup_url }}"
-          class="text-indigo-500 hover:text-indigo-600">Sign
+          class="text-indigo-500 hover:text-indigo-600 hover:underline">Sign
           up</a></p>
     </div>
 

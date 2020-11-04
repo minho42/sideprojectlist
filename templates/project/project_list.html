@@ -3,37 +3,47 @@
 {% block title %}Projects{% endblock title %}
 
 {% block content %}
-<div id="project-list" class="flex items-center justify-center">
+<div id="project-list" class="flex items-center justify-center pb-6">
   <div class="flex-1 mx-2">
-    <h1 class="text-2xl font-semibold ml-4 pt-4 pb-2">Projects ({{ projects|length }})</h1>
+    <div class="flex items-center justify-between pt-4 pb-2 mx-4">
+      <div class="block text-2xl font-semibold">Projects ({{ projects|length }})</div>
+      <div class="block text-xs capitalize font-semibold">
+        popular / newest
+      </div>
+    </div>
 
     {% if projects %}
     {% for project in projects %}
     <div class=" bg-white border-b border-gray-300">
       <a href="{{ project.slug }}" class="">
-        <div class="flex items-center justify-between px-5 py-3">
-          <div class="">
-            <img class="w-5 h-5" src="" alt="screenshot">
+        <div class="flex items-center justify-between px-2 py-3 sm:px-5 ">
+          <div>
+            <img class="w-16 h-24  sm:w-24 sm:h-24 rounded border border-gray-300" src="" alt="thumbnail">
           </div>
 
           <div class="">
-            <div class="text-lg font-semibold">
-              {{ project.maker_fullname }}
-              <!-- (@{{ project.twitter_handle }}) -->
+            <div>
+              <span class="text-lg font-semibold">
+                {{ project.maker_fullname }}
+              </span>
+              <span class="text-sm text-gray-500">
+                @{{ project.twitter_handle }}
+              </span>
             </div>
-            <div class="">
-              {{ project.link }}
+            <div class="text-sm text-gray-600">
+              Description...
             </div>
-            <div class="">
-              comments...
+            <div class="text-sm text-gray-600">
+              comments
             </div>
-            <div class="mt-3 inline-flex bg-green-200 rounded-md px-2 text-sm text-gray-700 capitalize hover:underline">
-              categories...
+            <div
+              class="mt-3 inline-flex bg-purple-200 rounded-md px-2 text-xs text-gray-700 capitalize hover:underline">
+              Web app
             </div>
           </div>
           <div class="">
             <button
-              class="w-16 h-20 text-sm font-semibold border border-gray-400 rounded hover:border-indigo-500 hover:shadow">
+              class="sm:w-16 sm:h-20 w-12 h-16  text-sm font-semibold border border-gray-400 rounded hover:border-indigo-500 hover:shadow">
               <div class="flex flex-col items-center">
                 <span class="">
                   <svg class="w-3 h-3" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">

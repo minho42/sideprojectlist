@@ -41,8 +41,18 @@ class ProjectCreateView(LoginRequiredMixin, CreateView):
     # form_class = ProjectCreateForm
     template_name = "project/project_create.html"
 
+    def form_valid(self, form):
+        form.instance.submitted_by = self.request.user
+        try:
+            success_url = super().form_valid(form)
+            form.instance.save()
+            return success_url
+        except IntegrityError as e:
+            messages.error(self.request, f"Something went wrong")
+            return HttpResponseRedirect(reverse("project:add"))
 
-class ProjectDetailView(LoginRequiredMixin, DetailView):
+
+class ProjectDetailView(DetailView):
     model = Project
     template_name = "project/project_detail.html"
 

@@ -2,20 +2,28 @@
 
 <nav id="navbar">
   <header class="bg-white sm:flex sm:justify-between border-b border-gray-300 shadow-sm">
-    <div class="flex items-center justify-between px-4 py-3">
-      <div class="">
-        <!-- <img class="h-8" src="" alt="Logo"> -->
+    <div class="flex items-center justify-between px-4 py-2">
+      <div class="h-8 w-8">
+        <!-- <button class="block text-gray-600 hover:text-black focus:text-black focus:outline-none">
+          <svg class="h-10 w-10" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+            <path fill-rule="evenodd"
+              d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-6-3a2 2 0 11-4 0 2 2 0 014 0zm-2 4a5 5 0 00-4.546 2.916A5.986 5.986 0 0010 16a5.986 5.986 0 004.546-2.084A5 5 0 0010 11z"
+              clip-rule="evenodd" />
+          </svg>
+        </button> -->
       </div>
-      <div class="bg-indigo-500 text-white rounded-full p-1 font-bold text-lg">
-        <a href="{% url 'project:list' %}">
-          SPL
+
+      <div class="">
+        <a href="{% url 'project:list' %}"
+          class="bg-indigo-500 hover:bg-indigo-600 text-white rounded-xl border-b border-gray-200 px-2 py-1 font-bold text-lg">
+          SP List
         </a>
       </div>
+
       <div class="sm:hidden">
         <button @click="isOpen = !isOpen" type="button"
           class="block text-gray-600 hover:text-black focus:text-black focus:outline-none">
-          <svg class="h-5 w-5 fill-current" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-            stroke="currentColor">
+          <svg class="h-8 w-8" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <!-- Hamburger menu -->
             <path v-if="!isOpen" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
               d="M4 6h16M4 12h16M4 18h16" />
@@ -29,47 +37,42 @@
     <div :class="isOpen ? 'block' : 'hidden'" class="px-2 py-2 sm:flex sm:items-center">
       {% if request.user.is_superuser %}
       <a href="{% url 'admin:index' %}" target="_blank" rel="noopener noreferrer"
-        class="block px-3 py-2 ml-2 text-gray-700 text-center rounded-lg hover:bg-gray-200">
+        class="block px-3 py-2 ml-2 text-gray-700 text-center sm:rounded-lg sm:border-none border-t border-gray-300 hover:bg-gray-200">
         Admin
       </a>
       {% endif %}
 
       {% if request.user.is_staff %}
       <a href="{% url 'dashboard' %}"
-        class="block px-3 py-2 ml-2 text-gray-700 text-center rounded-lg hover:bg-gray-200">
+        class="block px-3 py-2 ml-2 text-gray-700 text-center sm:rounded-lg sm:border-none border-t border-gray-300 hover:bg-gray-200">
         Dashboard
       </a>
       {% endif %}
 
       {% if request.user.is_authenticated %}
       <a href="{% url 'profiles:user' request.user.slug %}"
-        class="block px-3 py-2 ml-2 text-gray-700 text-center rounded-lg hover:bg-gray-200">
+        class="block px-3 py-2 ml-2 text-gray-700 text-center sm:rounded-lg sm:border-none border-t border-gray-300 hover:bg-gray-200">
         Hi, <span class="font-semibold">
           {{ user.firstname_or_username }}
         </span>
       </a>
-
       <a href="{% url 'project:add' %}"
-        class="block px-3 py-2 ml-2 text-gray-700 text-center rounded-lg hover:bg-gray-200">
+        class="block px-3 py-2 ml-2 text-gray-700 text-center sm:rounded-lg sm:border-none border-t border-gray-300 hover:bg-gray-200">
         Submit
       </a>
-
-
       <a href="{% url 'account_logout' %}"
-        class="block px-3 py-2 ml-2  text-gray-700  text-center rounded-lg hover:bg-gray-200 sm:mt-0">
+        class="block px-3 py-2 ml-2  text-gray-700  text-center sm:rounded-lg sm:border-none border-t border-gray-300 hover:bg-gray-200 sm:mt-0">
         Log out</a>
       {% else %}
-      <a href="{% url 'about' %}"
-        class="block px-3 py-2 ml-2 text-gray-700  text-center rounded-lg hover:bg-gray-200 sm:mt-0">About</a>
-
       <a href="{% url 'account_signup' %}"
-        class="block px-3 py-2 ml-2 text-gray-700 font-semibold text-center rounded-lg hover:bg-gray-200 border-2 border-indigo-400">Sign
+        class="block px-3 py-2 ml-2 text-gray-700 font-semibold text-center sm:rounded-lg border-t border-gray-300 hover:bg-gray-200 sm:border-2 sm:border-indigo-400">Sign
         up</a>
       <a href="{% url 'account_login' %}"
-        class="block px-3 py-2 ml-2  text-gray-700  text-center rounded-lg hover:bg-gray-200 sm:mt-0">Log
+        class="block px-3 py-2 ml-2  text-gray-700  text-center sm:rounded-lg sm:border-none border-t border-gray-300 hover:bg-gray-200 sm:mt-0">Log
         in</a>
-
       {% endif %}
+      <a href="{% url 'about' %}"
+        class="block px-3 py-2 ml-2 text-gray-700  text-center sm:rounded-lg sm:border-none border-t border-gray-300 hover:bg-gray-200 sm:mt-0">About</a>
 
 
     </div>

@@ -37,6 +37,7 @@ INSTALLED_APPS = [
     # "allauth.socialaccount.providers.twitter",
     # "allauth.socialaccount.providers.github",
     "crispy_forms",
+    "crispy_tailwind",
     "rest_framework",
     "rest_framework.authtoken",
     "corsheaders",
@@ -206,7 +207,8 @@ SOCIALACCOUNT_ADAPTER = "profiles.models.CustomSocialAccountAdapter"
 SOCIALACCOUNT_AUTO_SIGNUP = True
 
 # crispy forms
-CRISPY_TEMPLATE_PACK = "bootstrap4"
+CRISPY_ALLOWED_TEMPLATE_PACKS = "tailwind"
+CRISPY_TEMPLATE_PACK = "tailwind"
 
 # logout without confirmation
 # Should convert GET to POST

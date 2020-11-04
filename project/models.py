@@ -1,3 +1,4 @@
+from django.contrib.auth import get_user_model
 from django.db import models
 from django.urls import reverse
 from django.utils.text import slugify
@@ -8,16 +9,14 @@ class Project(TimeStampedModel):
     slug = models.SlugField(max_length=100, allow_unicode=True)
     link = models.URLField(max_length=200)
     maker_fullname = models.CharField(max_length=100)
-    twitter_handle = models.CharField(max_length=20, null=True)
-    github_handle = models.CharField(max_length=20, null=True)
-    producthunt_handle = models.CharField(max_length=20, null=True)
+    twitter_handle = models.CharField(max_length=20, null=True, blank=True)
+    github_handle = models.CharField(max_length=20, null=True, blank=True)
+    producthunt_handle = models.CharField(max_length=20, null=True, blank=True)
     is_approved = models.BooleanField(default=True)
-    # description
+    description = models.TextField(max_length=256, null=True, blank=True)
+    submitted_by = models.ForeignKey(get_user_model(), on_delete=models.CASCADE)
+    # thumbnail = models.ImageField()
     # category dev/design/...
-    # avatar
-    # description
-    # owner
-    # submitted_by
 
     def __str__(self):
         return f"{self.twitter_handle}: {self.link}"
@@ -34,9 +33,9 @@ class Project(TimeStampedModel):
 
     @property
     def upvote_count(self):
-        import random
-
-        return random.randint(0, 1500)
+        # import random
+        # return random.randint(0, 1500)
+        return Upvote.objects.filter(project=self.id).count()
 
 
 class Upvote(models.Model):
