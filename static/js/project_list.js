@@ -6,8 +6,8 @@ var vm = new Vue({
     console.log("project_list.js");
   },
   methods: {
-    upvote() {
-      console.log("upvoted");
+    upvote(project, user) {
+      console.log("upvoted", project, user);
     },
   },
 });

@@ -14,6 +14,7 @@ class Project(TimeStampedModel):
     producthunt_handle = models.CharField(max_length=20, null=True, blank=True)
     is_approved = models.BooleanField(default=True)
     description = models.TextField(max_length=256, null=True, blank=True)
+    maker_bio = models.TextField(max_length=256, null=True, blank=True)
     submitted_by = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     # thumbnail = models.ImageField()
     # category dev/design/...
@@ -47,3 +48,11 @@ class Upvote(models.Model):
 
     def __str__(self):
         return f"{self.project.maker_fullname} - {self.user}"
+
+
+class Comment(TimeStampedModel):
+    pass
+    # project
+    # user
+    # text
+    # parent
