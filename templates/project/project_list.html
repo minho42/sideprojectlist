@@ -45,8 +45,8 @@
           </div>
 
           <div class="">
-            <button @click.prevent="upvote({{ project.id }}, {{ user.id }})" class="sm:w-16 sm:h-20 w-12 h-16 text-sm font-semibold rounded border border-gray-400 hover:border-indigo-500 hover:shadow-md focus:outline-none
-              {% if project|is_upvoted_by_me:user %} border border-indigo-500 text-indigo-600 {% endif %}">
+            <button @click.prevent="upvote({{ project.id }}, {{ user.id }})" class="sm:w-16 sm:h-20 w-12 h-16 text-sm font-semibold rounded border border-gray-400 hover:border-green-500 hover:shadow-md focus:outline-none
+              {% if project|is_upvoted_by_me:user %} border bg-green-400 text-white {% endif %}">
               <div class="flex flex-col items-center">
                 <span class="">
                   <svg class="w-3 h-3 font-bold" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
