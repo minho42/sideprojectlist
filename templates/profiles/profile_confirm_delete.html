@@ -3,19 +3,19 @@
 {% block title %}Delete{% endblock title %}
 
 {% block content %}
-<div class="row justify-content-center mt-3">
-  <div class="col-md-5 text-center">
+<div class="">
+  <div class="">
     <form method="post">
       {% csrf_token %}
-      <div class="card">
-        <div class="card-body">
-          <h5 class="card-title">We're sorry to see you go</h5>
+      <div class="">
+        <div class="">
+          <h5 class="">We're sorry to see you go</h5>
           <hr>
-          <p class="card-text text-bold">Hi {{ u }},</p>
-          <p class="card-text">Are you sure you want to delete your account?</p>
-          <div class="card-footer text-center">
-            <a href="{{request.META.HTTP_REFERER}}" class="btn btn-secondary mr-5">Cancel</a>
-            <input type="submit" value="Delete" class="btn btn-danger">
+          <p class="">Hi {{ u }},</p>
+          <p class="">Are you sure you want to delete your account?</p>
+          <div class="">
+            <a href="{{request.META.HTTP_REFERER}}" class="">Cancel</a>
+            <input type="submit" value="Delete" class="">
           </div>
         </div>
       </div>

@@ -35,6 +35,7 @@ function addShowPassword(targetPasswordSelector) {
   label.setAttribute("for", `id-${selectorName}`);
   label.classList.add("show-password");
   label.classList.add("cursor-pointer");
+  label.classList.add("ml-1");
   label.innerText = "Show";
 
   div.appendChild(input);
