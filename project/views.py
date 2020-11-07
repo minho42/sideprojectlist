@@ -28,7 +28,8 @@ class ProjectListView(ListView):
 
     def get_queryset(self):
         return sorted(
-            Project.objects.order_by("-created"), key=lambda k: -k.upvote_count
+            Project.objects.filter(is_approved=True).order_by("-created"),
+            key=lambda k: -k.upvote_count,
         )
 
 
@@ -40,6 +41,7 @@ class ProjectCreateView(LoginRequiredMixin, CreateView):
         "twitter_handle",
         "github_handle",
         "producthunt_handle",
+        "tags",
     ]
     # form_class = ProjectCreateForm
     template_name = "project/project_create.html"
@@ -51,7 +53,8 @@ class ProjectCreateView(LoginRequiredMixin, CreateView):
             form.instance.save()
             return success_url
         except IntegrityError as e:
-            messages.error(self.request, f"Something went wrong")
+            # TODO
+            messages.error(self.request, f"Something went wrong: {e}")
             return HttpResponseRedirect(reverse("project:add"))
 
 

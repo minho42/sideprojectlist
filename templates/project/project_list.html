@@ -32,15 +32,19 @@
               {{ project.maker_fullname }}
             </div>
             <div class="inline-flex text-sm text-gray-600">
+              {% if project.twitter_handle %}
               @{{ project.twitter_handle }}
+              {% endif %}
             </div>
             <div class="block text-sm text-gray-700">
-              {{ project.description }}
-              {{ project.maker_bio }}
+              {{ project.link|truncatechars:"99" }}
+
+              {{ project.description|default_if_none:"" }}
+              {{ project.maker_bio|default_if_none:"" }}
             </div>
             <div
               class="inline-flex mt-3 bg-purple-200 rounded-md px-2 text-xs text-gray-700 capitalize hover:underline">
-              Tags...
+              {{ project.tags|default_if_none:"" }}
             </div>
           </div>
 

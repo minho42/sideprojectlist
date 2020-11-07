@@ -11,7 +11,10 @@
       <div class="">
         <div class="">
           {{ project.maker_fullname }}
-          (@{{ project.twitter_handle }})
+
+          <a href="https://twitter.com/{{ project.twitter_handle }}" target="_blank" rel="noopener noreferrer">
+            (@{{ project.twitter_handle }})
+          </a>
         </div>
         <div class="">
           <a href="{{ project.link }}" target="_blank" rel="noopener noreferrer" class="">

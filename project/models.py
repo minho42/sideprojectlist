@@ -17,7 +17,9 @@ class Project(TimeStampedModel):
     maker_bio = models.TextField(max_length=256, null=True, blank=True)
     submitted_by = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     # thumbnail = models.ImageField()
-    # category dev/design/...
+    tags = models.CharField(
+        max_length=256, null=True, blank=True, help_text="Comma separated strings"
+    )
 
     def __str__(self):
         return f"{self.twitter_handle}: {self.link}"

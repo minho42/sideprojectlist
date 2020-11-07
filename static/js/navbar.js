@@ -2,9 +2,11 @@ var vm = new Vue({
   delimiters: ["[[", "]]"],
   el: "#navbar",
   data: {
-    isOpen: false,
+    isMenuOpen: false,
+    isDropdownOpen: false,
   },
   created: function () {
-    console.log(this.isOpen);
+    console.log(this.isMenuOpen);
+    console.log(this.isDropdownOpen);
   },
 });
