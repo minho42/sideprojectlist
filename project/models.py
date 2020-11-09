@@ -1,22 +1,38 @@
+from django.conf import settings
 from django.db import models
 from django.urls import reverse
 from django.utils.text import slugify
+from imagekit.models import ImageSpecField
+from imagekit.processors import ResizeToFill, Crop
+from PIL import Image
 from sideprojectlist.models import TimeStampedModel
-from django.conf import settings
 
 
 class Project(TimeStampedModel):
     slug = models.SlugField(max_length=100, allow_unicode=True)
     link = models.URLField(max_length=200)
     maker_fullname = models.CharField(max_length=100)
+    maker_bio = models.TextField(max_length=256, null=True, blank=True)
     twitter_handle = models.CharField(max_length=20, null=True, blank=True)
     github_handle = models.CharField(max_length=20, null=True, blank=True)
     producthunt_handle = models.CharField(max_length=20, null=True, blank=True)
     is_approved = models.BooleanField(default=True)
-    description = models.TextField(max_length=256, null=True, blank=True)
-    maker_bio = models.TextField(max_length=256, null=True, blank=True)
     submitted_by = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
-    # thumbnail = models.ImageField()
+    screenshot = models.ImageField(
+        upload_to="screenshot/",
+        null=True,
+        blank=True
+        # default="screenshot/default.png",
+    )
+    # https://django-imagekit.readthedocs.io
+    # 2560
+    screenshot_thumbnail = ImageSpecField(
+        source="screenshot",
+        # ResizeToFill(60, 60),
+        processors=[Crop(2560, 5120)],
+        format="JPEG",
+        options={"quality": 60},
+    )
     tags = models.CharField(
         max_length=256, null=True, blank=True, help_text="Comma separated strings"
     )
@@ -37,6 +53,13 @@ class Project(TimeStampedModel):
     @property
     def upvote_count(self):
         return Upvote.objects.filter(project=self.id).count()
+
+    @property
+    def tags_in_list(self):
+        try:
+            return self.tags.rstrip(",").split(",")
+        except AttributeError:
+            return ""
 
 
 class Upvote(models.Model):

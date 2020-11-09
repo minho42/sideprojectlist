@@ -10,11 +10,15 @@
     <div class="">
       <div class="">
         <div class="">
-          {{ project.maker_fullname }}
+          {% if project.twitter_handle %}
+          <div>
+            <a href="https://twitter.com/{{ project.twitter_handle }}" target="_blank" rel="noopener noreferrer"
+              class=" text-indigo-700 hover:text-indigo-700 hover:underline">
+              Twitter
+            </a>
+          </div>
+          {% endif %}
 
-          <a href="https://twitter.com/{{ project.twitter_handle }}" target="_blank" rel="noopener noreferrer">
-            (@{{ project.twitter_handle }})
-          </a>
         </div>
         <div class="">
           <a href="{{ project.link }}" target="_blank" rel="noopener noreferrer" class="">
@@ -24,9 +28,26 @@
         <div class="">
           {{ project.description }}
         </div>
-        <div class="h6">
-          <button class="">
-            {{ project.upvote_count }}
+        <div class="">
+          <button
+            class="flex items-center bg-indigo-600 hover:bg-indigo-500 text-white font-medium px-4 py-2 mt-2 rounded tracking-wide">
+            <!-- chevron-up -->
+            <svg class="w-6 h-6" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+              <path fill-rule="evenodd"
+                d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z"
+                clip-rule="evenodd" />
+            </svg>
+            <svg class="w-6 h-6" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+              <path
+                d="M2 10.5a1.5 1.5 0 113 0v6a1.5 1.5 0 01-3 0v-6zM6 10.333v5.43a2 2 0 001.106 1.79l.05.025A4 4 0 008.943 18h5.416a2 2 0 001.962-1.608l1.2-6A2 2 0 0015.56 8H12V4a2 2 0 00-2-2 1 1 0 00-1 1v.667a4 4 0 01-.8 2.4L6.8 7.933a4 4 0 00-.8 2.4z" />
+            </svg>
+            <svg class="w-4 h-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+              stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 15l7-7 7 7" />
+            </svg>
+            <div>
+              Upvote {{ project.upvote_count }}
+            </div>
           </button>
         </div>
         <div>
