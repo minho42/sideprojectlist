@@ -9,7 +9,7 @@ from imagekit.processors import Crop, ResizeToFill
 from PIL import Image
 from sideprojectlist.models import TimeStampedModel
 
-from .tasks import save_sreenshot
+from .tasks import save_screenshot
 
 
 class Project(TimeStampedModel):
@@ -77,7 +77,7 @@ def project_post_save(sender, instance, created, **kwargs):
     if not created:
         return
 
-    save_sreenshot.apply_async(
+    save_screenshot.apply_async(
         args=(instance.id,),
         # link=success_callback.s(request.user.id),
         link=None,

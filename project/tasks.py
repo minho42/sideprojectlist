@@ -6,6 +6,6 @@ from .screenshot_saver import ScreenshotSaver
 
 
 @shared_task
-def save_sreenshot(project_id):
+def save_screenshot(project_id):
     with ScreenshotSaver() as SS:
         SS.save(project_id)
