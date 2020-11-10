@@ -1,11 +1,15 @@
 from django.conf import settings
 from django.db import models
+from django.db.models.signals import post_save
+from django.dispatch import receiver
 from django.urls import reverse
 from django.utils.text import slugify
 from imagekit.models import ImageSpecField
-from imagekit.processors import ResizeToFill, Crop
+from imagekit.processors import Crop, ResizeToFill
 from PIL import Image
 from sideprojectlist.models import TimeStampedModel
+
+from .tasks import save_sreenshot
 
 
 class Project(TimeStampedModel):
@@ -28,10 +32,16 @@ class Project(TimeStampedModel):
     # 2560
     screenshot_thumbnail = ImageSpecField(
         source="screenshot",
-        # ResizeToFill(60, 60),
         processors=[Crop(2560, 5120)],
         format="JPEG",
         options={"quality": 60},
+    )
+    maker_avatar = models.ImageField(upload_to="avatar/", null=True, blank=True)
+    maker_avatar_thumbnail = ImageSpecField(
+        source="screenshot",
+        processors=[ResizeToFill(30, 30)],
+        format="JPEG",
+        options={"quality": 80},
     )
     tags = models.CharField(
         max_length=256, null=True, blank=True, help_text="Comma separated strings"
@@ -60,6 +70,19 @@ class Project(TimeStampedModel):
             return self.tags.rstrip(",").split(",")
         except AttributeError:
             return ""
+
+
+@receiver(post_save, sender=Project)
+def project_post_save(sender, instance, created, **kwargs):
+    if not created:
+        return
+
+    save_sreenshot.apply_async(
+        args=(instance.id,),
+        # link=success_callback.s(request.user.id),
+        link=None,
+        link_error=None,
+    )
 
 
 class Upvote(models.Model):

@@ -1,9 +1,43 @@
+import os
 import time
 from functools import wraps
 from typing import List
 
 from django.http import Http404
-from profiles.models import User
+from selenium import webdriver
+from selenium.common.exceptions import WebDriverException
+
+
+def get_chromedriver(headless: bool = True) -> object:
+    options = webdriver.ChromeOptions()
+    # prefs = {"profile.managed_default_content_settings.images": 2}
+    # options.add_experimental_option("prefs", prefs)
+    if headless:
+        options.add_argument("headless")
+    options.add_argument("--no-sandbox")
+    options.add_argument("--disable-gpu")
+    options.add_argument("--disable-dev-shm-usage")
+    options.add_argument(
+        "--remote-debugging-port=9222"
+    )  # Trying to fix WebDriverException("unknown error: DevToolsActivePort file doesn't exist", None, None)
+    # options.add_argument("--window-size=2560,5120")
+    options.add_argument("window-size=2560,5120")
+    # options.add_argument("--start-maximized")
+
+    try:
+        driver = webdriver.Chrome(
+            os.environ.get("CHROME_DRIVER_PATH"),
+            options=options,
+        )
+        driver.set_window_size(1024, 768)
+
+    except WebDriverException as e:
+        # TODO Needs to record/log error message somewhere so can be chased
+        print("WebDriverException")
+        print(str(e))
+        driver = None
+
+    return driver
 
 
 def timeit(func):

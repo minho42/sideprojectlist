@@ -41,6 +41,7 @@ class ProjectCreateView(LoginRequiredMixin, CreateView):
         "twitter_handle",
         "github_handle",
         "producthunt_handle",
+        "maker_bio",
         "tags",
     ]
     # form_class = ProjectCreateForm
