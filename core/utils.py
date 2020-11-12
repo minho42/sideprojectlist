@@ -3,9 +3,32 @@ import time
 from functools import wraps
 from typing import List
 
+import requests
+from django.core.files import File
+from django.core.files.temp import NamedTemporaryFile
 from django.http import Http404
 from selenium import webdriver
 from selenium.common.exceptions import WebDriverException
+
+USER_AGENT = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/69.0.3497.100 Safari/537.36"
+
+
+def save_image_from_url(field, url, filename=None):
+    headers = {"User-Agent": USER_AGENT}
+    r = requests.get(url, headers=headers)
+
+    if r.status_code != requests.codes.ok:
+        return False
+
+    temp = NamedTemporaryFile(delete=True)
+    temp.write(r.content)
+    temp.flush()
+
+    if not filename:
+        filename = os.path.basename(url)
+
+    field.save(filename, File(temp), save=True)
+    return True
 
 
 def get_chromedriver(headless: bool = True) -> object:

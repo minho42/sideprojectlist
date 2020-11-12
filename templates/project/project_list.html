@@ -27,7 +27,7 @@
             <!-- <img class="w-24 h-48 rounded border border-gray-300" src="{{ MEDIA_URL }}{{ project.screenshot }}"
               alt="screenshot"> -->
             {% if project.screenshot %}
-            <img class="rounded border border-gray-300" src="{{ project.screenshot_thumbnail.url }}" alt="screenshot">
+            <img class="rounded border border-gray-300" src="{{ MEDIA_URL }}{{ project.screenshot }}" alt="screenshot">
             {% else %}
             <div class="">
               <!-- No screenshot -->
@@ -44,7 +44,7 @@
             <div class="inline-flex text-xl font-medium hover:underline">
               {{ project.maker_fullname }}
             </div>
-            <div class="block text-gray-600">
+            <div class="block text-gray-700">
               <!-- {{ project.link|truncatechars:"99" }} -->
               <!-- {{ project.description|default_if_none:"" }} -->
               {{ project.maker_bio|default_if_none:"" }}

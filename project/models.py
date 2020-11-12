@@ -4,9 +4,6 @@ from django.db.models.signals import post_save
 from django.dispatch import receiver
 from django.urls import reverse
 from django.utils.text import slugify
-from imagekit.models import ImageSpecField
-from imagekit.processors import Crop, ResizeToFill
-from PIL import Image
 from sideprojectlist.models import TimeStampedModel
 
 from .tasks import save_screenshot
@@ -22,27 +19,8 @@ class Project(TimeStampedModel):
     producthunt_handle = models.CharField(max_length=20, null=True, blank=True)
     is_approved = models.BooleanField(default=True)
     submitted_by = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
-    screenshot = models.ImageField(
-        upload_to="screenshot/",
-        null=True,
-        blank=True
-        # default="screenshot/default.png",
-    )
-    # https://django-imagekit.readthedocs.io
-    # 2560
-    screenshot_thumbnail = ImageSpecField(
-        source="screenshot",
-        processors=[Crop(2560, 5120)],
-        format="JPEG",
-        options={"quality": 60},
-    )
+    screenshot = models.ImageField(upload_to="screenshot/", null=True, blank=True)
     maker_avatar = models.ImageField(upload_to="avatar/", null=True, blank=True)
-    maker_avatar_thumbnail = ImageSpecField(
-        source="screenshot",
-        processors=[ResizeToFill(30, 30)],
-        format="JPEG",
-        options={"quality": 80},
-    )
     tags = models.CharField(
         max_length=256, null=True, blank=True, help_text="Comma separated strings"
     )
@@ -73,7 +51,8 @@ class Project(TimeStampedModel):
 
 
 @receiver(post_save, sender=Project)
-def project_post_save(sender, instance, created, **kwargs):
+# def project_post_save(sender, instance, created, **kwargs):
+def project_post_save(sender, instance, created, raw, using, update_fields, **kwargs):
     if not created:
         return
 
