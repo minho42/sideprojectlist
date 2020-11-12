@@ -17,6 +17,7 @@ psycopg2-binary==2.8.6
 pytest==6.1.1
 pytest-django==4.1.0
 redis==3.5.3
+selenium
 sentry-sdk==0.19.1
 tweepy
 whitenoise==5.2.0
