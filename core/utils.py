@@ -2,6 +2,7 @@ import os
 import time
 from functools import wraps
 from typing import List
+from django.conf import settings
 
 import requests
 from django.core.files import File
@@ -48,11 +49,21 @@ def get_chromedriver(headless: bool = True) -> object:
     # options.add_argument("--start-maximized")
 
     try:
-        driver = webdriver.Chrome(
-            os.environ.get("CHROME_DRIVER_PATH"),
-            options=options,
-        )
-        driver.set_window_size(1024, 768)
+        if settings.DEBUG:
+            driver = webdriver.Chrome(
+                os.environ.get("CHROME_DRIVER_PATH"),
+                options=options,
+            )
+            driver.set_window_size(1024, 768)
+        else:
+            # Heroku
+            options.binary_location = os.environ.get("GOOGLE_CHROME_BIN")
+
+            driver = webdriver.Chrome(
+                executable_path=os.environ.get("CHROME_DRIVER_PATH"),
+                chrome_options=options,
+            )
+            driver.set_window_size(1024, 768)
 
     except WebDriverException as e:
         # TODO Needs to record/log error message somewhere so can be chased
