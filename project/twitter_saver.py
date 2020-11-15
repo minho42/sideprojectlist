@@ -1,3 +1,4 @@
+from typing import Union
 import environ
 import tweepy
 from tweepy.error import TweepError
@@ -13,7 +14,7 @@ class TwitterSaver:
     def __init__(self):
         self.api = self._get_api()
 
-    def _get_api(self):
+    def _get_api(self) -> object:
         auth = tweepy.OAuthHandler(
             env("TWITTER_CONSUMER_KEY"), env("TWITTER_CONSUMER_SECRET")
         )
@@ -23,9 +24,10 @@ class TwitterSaver:
         )
 
         api = tweepy.API(auth)
+        # TODO catch potential exception
         return api
 
-    def _get_user(self, handle):
+    def _get_user(self, handle: str) -> Union[object, None]:
         try:
             user = self.api.get_user(handle)
         except TweepError:
@@ -33,19 +35,19 @@ class TwitterSaver:
             user = None
         return user
 
-    def _get_bio(self, handle):
+    def _get_bio(self, handle: str) -> Union[str, None]:
         user = self._get_user(handle)
         if not user:
             return
         return user.description
 
-    def _get_profile_image_url(self, handle):
+    def _get_profile_image_url(self, handle: str) -> Union[str, None]:
         user = self._get_user(handle)
         if not user:
             return
         return user.profile_image_url_https
 
-    def save_bio(self, project_id):
+    def save_bio(self, project_id) -> None:
         Project = apps.get_model("project", "Project")
         p = get_object_or_404(Project, id=project_id)
         if not p.twitter_handle:
@@ -55,7 +57,7 @@ class TwitterSaver:
             p.maker_bio = bio
             p.save()
 
-    def save_profile_image(self, project_id):
+    def save_profile_image(self, project_id) -> None:
         Project = apps.get_model("project", "Project")
         p = get_object_or_404(Project, id=project_id)
         url = self._get_profile_image_url(p.twitter_handle)

@@ -8,7 +8,7 @@ from .twitter_saver import TwitterSaver
 
 
 @shared_task
-def save_info(project_id):
+def save_info(project_id: int) -> None:
     with ScreenshotSaver() as SS:
         SS.save(project_id)
 
@@ -18,7 +18,7 @@ def save_info(project_id):
 
 
 @shared_task
-def save_info_for_all():
+def save_info_for_all() -> None:
     Project = apps.get_model("project", "Project")
     for p in Project.objects.all():
         save_info(p.id)

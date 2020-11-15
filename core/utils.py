@@ -1,7 +1,7 @@
 import os
 import time
 from functools import wraps
-from typing import List
+from typing import List, Union
 
 import requests
 from django.conf import settings
@@ -14,7 +14,7 @@ from selenium.common.exceptions import WebDriverException
 USER_AGENT = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/69.0.3497.100 Safari/537.36"
 
 
-def save_image_from_url(field, url, filename=None):
+def save_image_from_url(field, url: str, filename=None) -> bool:
     headers = {"User-Agent": USER_AGENT}
     r = requests.get(url, headers=headers)
 
@@ -32,7 +32,7 @@ def save_image_from_url(field, url, filename=None):
     return True
 
 
-def get_chromedriver(headless: bool = True) -> object:
+def get_chromedriver(headless: bool = True) -> Union[object, None]:
     options = webdriver.ChromeOptions()
     # prefs = {"profile.managed_default_content_settings.images": 2}
     # options.add_experimental_option("prefs", prefs)
@@ -122,7 +122,7 @@ def get_all_fields_excluding(model, exclude_list: List[str]) -> List[str]:
     return include_list
 
 
-def superuser_check(user):
+def superuser_check(user: object) -> Union[bool, object]:
     """To be used as parameter for @user_passes_test
     View is only available for superuser otherwise raise 404"""
     if user.is_superuser:
@@ -130,7 +130,7 @@ def superuser_check(user):
     raise Http404()
 
 
-def staff_check(user):
+def staff_check(user: object) -> Union[bool, object]:
     """To be used as parameter for @user_passes_test
     View is only available for staff otherwise raise 404"""
     if user.is_staff:

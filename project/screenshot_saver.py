@@ -11,7 +11,7 @@ class ScreenshotSaver:
     def __init__(self):
         self.driver = get_chromedriver(headless=True)
 
-    def save(self, project_id):
+    def save(self, project_id: int) -> None:
         Project = apps.get_model("project", "Project")
         p = get_object_or_404(Project, id=project_id)
         print(f"ScreenshotSaver.save({p.id}): {p.maker_fullname}")
