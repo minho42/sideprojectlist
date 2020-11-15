@@ -80,9 +80,9 @@
               {{ project.maker_bio|default_if_none:"" }}
             </div>
 
-            <div class="flex items-center">
+            <div class="flex flex-wrap items-center mt-6">
               {% for tag in project.tags_in_list %}
-              <a href="{% url 'project:tag' tag %}" class="block bg-gray-300 rounded-md px-2 mr-2 mt-6 hover:underline">
+              <a href="{% url 'project:tag' tag %}" class="block bg-gray-300 rounded-md px-2 mr-2 mt-2 hover:underline">
                 {{ tag }}
               </a>
               {% endfor %}
