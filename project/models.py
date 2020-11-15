@@ -26,7 +26,7 @@ class Project(TimeStampedModel):
     )
 
     def __str__(self):
-        return f"{self.twitter_handle}: {self.link}"
+        return f"{self.maker_fullname}"
 
     def get_absolute_url(self):
         return reverse("project:list")
@@ -58,3 +58,16 @@ def project_post_save(sender, instance, created, raw, using, update_fields, **kw
         link=None,
         link_error=None,
     )
+
+
+class Like(models.Model):
+    project = models.ForeignKey(
+        Project, related_name="liked_project", on_delete=models.CASCADE
+    )
+    user = models.ForeignKey(
+        settings.AUTH_USER_MODEL, related_name="liked_user", on_delete=models.CASCADE
+    )
+    created = models.DateTimeField(auto_now_add=True, blank=True, null=True)
+
+    def __str__(self):
+        return f"{self.project.maker_fullname} liked by {self.user}"
