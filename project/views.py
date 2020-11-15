@@ -17,6 +17,24 @@ from django.views.generic import (
 from .models import Project
 
 
+class ProjectTagView(ListView):
+    model = Project
+    template_name = "project/project_list.html"
+    context_object_name = "projects"
+
+    def get_queryset(self):
+        return (
+            Project.objects.filter(is_approved=True)
+            .filter(tags__icontains=self.kwargs["tag"])
+            .order_by("-created")
+        )
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["tag_selected"] = self.kwargs["tag"]
+        return context
+
+
 class ProjectListView(ListView):
     model = Project
     template_name = "project/project_list.html"
@@ -34,7 +52,6 @@ class ProjectCreateView(LoginRequiredMixin, CreateView):
         "twitter_handle",
         "github_handle",
         "producthunt_handle",
-        "maker_bio",
         "tags",
     ]
     # form_class = ProjectCreateForm
@@ -49,4 +66,4 @@ class ProjectCreateView(LoginRequiredMixin, CreateView):
         except IntegrityError as e:
             # TODO
             messages.error(self.request, f"Something went wrong: {e}")
-            return HttpResponseRedirect(reverse("project:add"))
+            return HttpResponseRedirect(reverse("project:submit"))

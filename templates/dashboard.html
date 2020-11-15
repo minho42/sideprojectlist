@@ -23,13 +23,18 @@
     </div>
   </div>
 
-  {% if request.user.is_staff %}
-  <div class="">
+  <div class="mt-4 text-center">
+    <div>
+      Screenshot not saved: {{ count_screenshot_not_saved }}
+    </div>
+    <div>
+      Bio not saved: {{ count_maker_bio_not_saved }}
+    </div>
+
     <button @click="saveInfoForAll"
       class="capitalize bg-green-600 hover:bg-green-500 text-white px-4 py-2 mt-2 rounded-lg tracking-wide">
       Save screenshots/bios for all</button>
   </div>
-  {% endif %}
 
 </div>
 

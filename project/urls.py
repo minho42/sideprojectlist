@@ -7,7 +7,8 @@ app_name = "project"
 
 urlpatterns = [
     path("", views.ProjectListView.as_view(), name="list"),
-    path("add/", views.ProjectCreateView.as_view(), name="add"),
+    path("tag=<str:tag>/", views.ProjectTagView.as_view(), name="tag"),
+    path("submit/", views.ProjectCreateView.as_view(), name="submit"),
     path(
         "save-info-for-all/",
         views.ProjectCreateView.as_view(),

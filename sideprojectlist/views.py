@@ -3,6 +3,7 @@ from datetime import timedelta
 from core.utils import staff_check
 from django.contrib.auth.decorators import user_passes_test
 from django.db.models.functions import TruncDate
+from django.db.models import Q
 from django.shortcuts import render
 from django.utils import timezone
 from profiles.models import User
@@ -12,6 +13,7 @@ from rest_framework.views import APIView
 from project.tasks import save_info_for_all
 from rest_framework.response import Response
 from sideprojectlist.celery import app
+from project.models import Project
 
 
 def home(request):
@@ -56,7 +58,14 @@ def dashboard(request):
     user_count = (
         User.objects.exclude(is_superuser=True).exclude(is_active=False).count()
     )
+    count_maker_bio_not_saved = Project.objects.filter(
+        ~Q(twitter_handle=None) & Q(maker_bio=None)
+    ).count()
+    count_screenshot_not_saved = Project.objects.filter(screenshot=None).count()
+
     context["user_count"] = user_count
+    context["count_maker_bio_not_saved"] = count_maker_bio_not_saved
+    context["count_screenshot_not_saved"] = count_screenshot_not_saved
 
     return render(request, template, context)
 

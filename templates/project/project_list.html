@@ -6,8 +6,23 @@
 {% block content %}
 <div id="project-list" class="mx-2">
   <div class="flex items-center justify-between pt-4 pb-2 mx-4">
-    <div class="text-2xl font-semibold">Projects ({{ projects|length }})</div>
-    <div class="text-sm capitalize font-semibold">
+    <div class="flex items-center justify-start text-2xl font-semibold">
+      {% if tag_selected %}
+      <div class="">
+        <a href="{% url 'project:list' %}" class="text-indigo-700 hover:text-indigo-700 hover:underline">
+          Projects
+        </a>
+        / {{ tag_selected }} ({{ projects|length }})
+      </div>
+      {% else %}
+      <div>
+        Projects ({{ projects|length }})
+      </div>
+      {% endif %}
+
+    </div>
+
+    <div class="text-sm font-semibold text-gray-600">
       Sort by...
     </div>
   </div>
@@ -67,7 +82,7 @@
 
             <div class="flex items-center">
               {% for tag in project.tags_in_list %}
-              <a href="#" class="block bg-gray-300 rounded-md px-2 mr-2 mt-6 hover:underline">
+              <a href="{% url 'project:tag' tag %}" class="block bg-gray-300 rounded-md px-2 mr-2 mt-6 hover:underline">
                 {{ tag }}
               </a>
               {% endfor %}
