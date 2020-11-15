@@ -25,9 +25,12 @@ urlpatterns = [
     path("accounts/", include("allauth.urls")),
     path("u/", include("profiles.urls")),
     path("about/", views.about, name="about"),
-    path("terms/", views.terms, name="terms"),
-    path("privacy/", views.privacy, name="privacy"),
     path("dashboard/", views.dashboard, name="dashboard"),
+    path(
+        "api/save-info-for-all/",
+        views.AsyncSaveInfoForAll.as_view(),
+        name="save-info-for-all",
+    ),
     path(
         "api/signup-count/",
         views.ChartDataSignupCount.as_view(),

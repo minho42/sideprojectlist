@@ -14,7 +14,7 @@
 {% endblock stylesheet%}
 
 {% block content %}
-<div id="charts" class="">
+<div id="dashboard" class="">
   <div class="text-2xl font-semibold">Users ({{ user_count }})</div>
   <div class="">
     <div class="signupcount-linechart-container" style="height: 180px;">
@@ -22,6 +22,16 @@
       </signupcount-linechart>
     </div>
   </div>
+
+  {% if request.user.is_staff %}
+  <div class="">
+    <button @click="saveInfoForAll"
+      class="capitalize bg-green-600 hover:bg-green-500 text-white px-4 py-2 mt-2 rounded-lg tracking-wide">
+      Save screenshots/bios for all</button>
+  </div>
+  {% endif %}
+
 </div>
+
 
 {% endblock content %}

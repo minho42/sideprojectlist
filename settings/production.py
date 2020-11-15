@@ -2,7 +2,7 @@ from .base import *
 
 DEBUG = False
 
-ALLOWED_HOSTS += []
+ALLOWED_HOSTS += ["https://sideprojectlist.herokuapp.com", "https://sideprojectlist.co"]
 
 # Sentry
 import sentry_sdk

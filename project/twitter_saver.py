@@ -1,5 +1,6 @@
 import environ
 import tweepy
+from tweepy.error import TweepError
 from core.utils import save_image_from_url
 from django.apps import apps
 from django.shortcuts import get_object_or_404
@@ -24,19 +25,39 @@ class TwitterSaver:
         api = tweepy.API(auth)
         return api
 
+    def _get_user(self, handle):
+        try:
+            user = self.api.get_user(handle)
+        except TweepError:
+            print(f"handle: {handle}")
+            user = None
+        return user
+
     def _get_bio(self, handle):
-        return self.api.get_user(handle).description
+        user = self._get_user(handle)
+        if not user:
+            return
+        return user.description
 
     def _get_profile_image_url(self, handle):
-        return self.api.get_user(handle).profile_image_url_https
+        user = self._get_user(handle)
+        if not user:
+            return
+        return user.profile_image_url_https
 
     def save_bio(self, project_id):
         Project = apps.get_model("project", "Project")
         p = get_object_or_404(Project, id=project_id)
+        if not p.twitter_handle:
+            return
         bio = self._get_bio(p.twitter_handle)
+        if bio:
+            p.maker_bio = bio
+            p.save()
 
     def save_profile_image(self, project_id):
         Project = apps.get_model("project", "Project")
         p = get_object_or_404(Project, id=project_id)
         url = self._get_profile_image_url(p.twitter_handle)
-        save_image_from_url(p.maker_avatar, url)
+        if url:
+            save_image_from_url(p.maker_avatar, url)

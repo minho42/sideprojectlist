@@ -1,90 +1,60 @@
 {% extends "base.html" %}
 {% load static %}
-{% load project_extras %}
 
 {% block title %}List of awesome side projects{% endblock title %}
 
-{% block javascript %}
-<script src="{% static 'js/project_list.js' %}"></script>
-{% endblock javascript %}
-
 {% block content %}
-<div id="project-list" class="flex items-center justify-center pb-6">
-  <div class="flex-1 mx-2 md:flex-none md:w-3/5">
-    <div class="flex items-center justify-between pt-4 pb-2 mx-4">
-      <div class="block text-2xl font-semibold">Projects ({{ projects|length }})</div>
-      <div class="block text-xs capitalize font-semibold">
-        <!-- Popular/New -->
-      </div>
-    </div>
-
+<div id="project-list" class="">
+  <div class="flex flex-wrap mx-2">
     {% if projects %}
     {% for project in projects %}
-    <div class=" bg-white">
-      <a href="{{ project.slug }}" class="">
-        <div class="flex items-start justify-between px-2 py-3 sm:px-5 border border-t-0 border-gray-300">
-          <div class="flex-shrink-0 w-24 sm:w-32">
-            <!-- <img class="w-24 h-48 rounded border border-gray-300" src="{{ MEDIA_URL }}{{ project.screenshot }}"
-              alt="screenshot"> -->
+    <div class="flex flex-col items-center justify-center">
+      <div class="mx-6 mt-3 bg-white rounded-xl shadow-lg px-6 py-4">
+        <div class="flex items-center justify-start">
+          {% if project.maker_avatar %}
+          <div class="flex-shrink-0">
+            <img src="{{ MEDIA_URL }}{{ project.maker_avatar }}" class="w-8 rounded-full mr-1" alt="twitter avatar">
+          </div>
+          {% endif %}
+
+          <div class="text-2xl font-semibold">
+            {{ project.maker_fullname }}
+          </div>
+
+          {% if project.twitter_handle %}
+          <div class="ml-1">
+            <a href="https://twitter.com/{{ project.twitter_handle }}" target="_blank" rel="noopener noreferrer"
+              class=" text-indigo-700 hover:text-indigo-700 hover:underline">
+              @{{ project.twitter_handle|truncatechars:"18" }}
+            </a>
+          </div>
+          {% endif %}
+
+        </div>
+
+        <div class="mt-4">
+          <a href="{{ project.link }}" target="_blank" rel="noopener noreferrer"
+            class="flex flex-col items-center justify-center text-indigo-700 hover:text-indigo-700 hover:underline">
             {% if project.screenshot %}
-            <img class="rounded border border-gray-300" src="{{ MEDIA_URL }}{{ project.screenshot }}" alt="screenshot">
+            <img class="w-64 rounded" src="{{ MEDIA_URL }}{{ project.screenshot }}" alt="screenshot">
             {% else %}
-            <div class="">
-              <!-- No screenshot -->
-              <svg class=" text-gray-300" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                  d="M8 9l3 3-3 3m5 0h3M5 20h14a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
-              </svg>
-            </div>
-            {% endif %}
+            {{ project.link }}
+            {% endif  %}
+          </a>
+          <div class="my-3">
+            {{ project.maker_bio|default_if_none:"" }}
           </div>
-
-          <div class="flex-1 mx-2 sm:mx-3">
-            <div class="inline-flex text-xl font-medium hover:underline">
-              {{ project.maker_fullname }}
-            </div>
-            <div class="block text-gray-700">
-              <!-- {{ project.link|truncatechars:"99" }} -->
-              <!-- {{ project.description|default_if_none:"" }} -->
-              {{ project.maker_bio|default_if_none:"" }}
-            </div>
-            <div class="flex items-center mt-3 ">
-              {% for tag in project.tags_in_list %}
-              <a href="#" class="block bg-gray-300 rounded-md px-2 mr-2 hover:underline">
-                {{ tag }}
-              </a>
-              {% endfor %}
-            </div>
-          </div>
-
-          <div class="">
-            <button @click.prevent="upvote({{ project.id }}, {{ user.id }})" class="sm:w-16 sm:h-20 w-12 h-16 text-lg font-semibold rounded border border-gray-400 hover:border-indigo-500 hover:shadow-md focus:outline-none
-              {% if project|is_upvoted_by_me:user %} bg-indigo-100 text-indigo-600 {% endif %}">
-              <div class="flex flex-col items-center">
-                <span class="">
-                  <!-- chevron-up -->
-                  <svg class="w-4 h-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                    stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 15l7-7 7 7" />
-                  </svg>
-                </span>
-                <span class="">
-                  {{ project.upvote_count }}
-                </span>
-              </div>
-            </button>
+          <div class="flex items-center mt-3 ">
+            {% for tag in project.tags_in_list %}
+            <a href="#" class="block bg-gray-300 rounded-md px-2 mr-2 hover:underline">
+              {{ tag }}
+            </a>
+            {% endfor %}
           </div>
         </div>
-      </a>
+      </div>
     </div>
-
     {% endfor %}
-
-    {% else %}
-    <div class="">
-      <h1>No projects found</h1>
-    </div>
     {% endif %}
   </div>
 </div>

@@ -12,7 +12,6 @@ from django.forms import ValidationError, forms
 from django.shortcuts import redirect
 from django.urls import reverse
 from django.utils.text import slugify
-from project.models import Upvote
 from sideprojectlist.models import TimeStampedModel
 
 
@@ -113,11 +112,6 @@ class User(AbstractUser):
 
     def is_loggedin_with_socialauth(self):
         return self.is_authenticated and self.is_signedup_with_socialauth()
-
-    @property
-    def my_upvote_count(self):
-        # ? WTH -> error with filter(user=self.id)
-        return Upvote.objects.filter(user=self).count()
 
 
 class Follow:

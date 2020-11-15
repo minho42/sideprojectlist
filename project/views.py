@@ -10,15 +10,11 @@ from django.urls import reverse, reverse_lazy
 from django.utils.html import format_html
 from django.views.generic import (
     CreateView,
-    DeleteView,
-    DetailView,
     ListView,
-    TemplateView,
-    UpdateView,
 )
 
 # from .forms import DistrictCreateForm, DistrictPasswordChangeForm, DistrictUpdateForm
-from .models import Project, Upvote
+from .models import Project
 
 
 class ProjectListView(ListView):
@@ -27,10 +23,7 @@ class ProjectListView(ListView):
     context_object_name = "projects"
 
     def get_queryset(self):
-        return sorted(
-            Project.objects.filter(is_approved=True).order_by("-created"),
-            key=lambda k: -k.upvote_count,
-        )
+        return Project.objects.filter(is_approved=True).order_by("-created")
 
 
 class ProjectCreateView(LoginRequiredMixin, CreateView):
@@ -57,13 +50,3 @@ class ProjectCreateView(LoginRequiredMixin, CreateView):
             # TODO
             messages.error(self.request, f"Something went wrong: {e}")
             return HttpResponseRedirect(reverse("project:add"))
-
-
-class ProjectDetailView(DetailView):
-    model = Project
-    template_name = "project/project_detail.html"
-
-    def get_queryset(self):
-        qs = super().get_queryset()
-        qs = qs.filter(slug=self.kwargs["slug"])
-        return qs

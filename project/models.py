@@ -6,7 +6,7 @@ from django.urls import reverse
 from django.utils.text import slugify
 from sideprojectlist.models import TimeStampedModel
 
-from .tasks import save_screenshot
+from .tasks import save_info
 
 
 class Project(TimeStampedModel):
@@ -39,10 +39,6 @@ class Project(TimeStampedModel):
         unique_together = [["link", "maker_fullname"]]
 
     @property
-    def upvote_count(self):
-        return Upvote.objects.filter(project=self.id).count()
-
-    @property
     def tags_in_list(self):
         try:
             return self.tags.rstrip(",").split(",")
@@ -56,30 +52,9 @@ def project_post_save(sender, instance, created, raw, using, update_fields, **kw
     if not created:
         return
 
-    save_screenshot.apply_async(
+    save_info.apply_async(
         args=(instance.id,),
         # link=success_callback.s(request.user.id),
         link=None,
         link_error=None,
     )
-
-
-class Upvote(models.Model):
-    project = models.ForeignKey(
-        Project, related_name="upvoted_project", on_delete=models.CASCADE
-    )
-    user = models.ForeignKey(
-        settings.AUTH_USER_MODEL, related_name="from_user", on_delete=models.CASCADE
-    )
-    created = models.DateTimeField(auto_now_add=True, blank=True, null=True)
-
-    def __str__(self):
-        return f"{self.project.maker_fullname} - {self.user}"
-
-
-class Comment(TimeStampedModel):
-    pass
-    # project
-    # user
-    # text
-    # parent

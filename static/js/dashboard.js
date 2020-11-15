@@ -104,7 +104,7 @@ Vue.component("signupcount-linechart", {
 
 var vm = new Vue({
   delimiters: ["[[", "]]"],
-  el: "#charts",
+  el: "#dashboard",
   data: {
     signupCountName: "signupcount",
     signupDateLabels: [],
@@ -114,6 +114,17 @@ var vm = new Vue({
     this.getSignupCount();
   },
   methods: {
+    saveInfoForAll() {
+      console.log("saveInfoForAll");
+      axios
+        .get("/api/save-info-for-all/")
+        .then((response) => {
+          console.log(response.data);
+        })
+        .catch((error) => {
+          console.log("saveInfoForAll().axios.get error: " + error.message);
+        });
+    },
     getSignupCount() {
       console.log("getSignupCount()");
       var self = this;

@@ -6,9 +6,12 @@ from django.db.models.functions import TruncDate
 from django.shortcuts import render
 from django.utils import timezone
 from profiles.models import User
-from rest_framework.permissions import IsAdminUser
+from rest_framework.permissions import IsAdminUser, IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
+from project.tasks import save_info_for_all
+from rest_framework.response import Response
+from sideprojectlist.celery import app
 
 
 def home(request):
@@ -22,19 +25,27 @@ def about(request):
     return render(request, template)
 
 
-def terms(request):
-    template = "terms.html"
-    return render(request, template)
+class AsyncSaveInfoForAll(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request):
+        return async_save_info_for_all(request)
 
 
-def privacy(request):
-    template = "privacy.html"
-    return render(request, template)
+@user_passes_test(staff_check)
+def async_save_info_for_all(request):
+    save_info_for_all.apply_async(
+        args=(),
+        link=success_callback_for_async_save_info_for_all.s(),
+        link_error=None,
+    )
+    return Response([{"response": "OK"}])
 
 
-def security(request):
-    template = "security.html"
-    return render(request, template)
+@app.task
+def success_callback_for_async_save_info_for_all(response):
+    print("success_")
+    pass
 
 
 @user_passes_test(staff_check)

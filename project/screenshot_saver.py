@@ -14,6 +14,7 @@ class ScreenshotSaver:
     def save(self, project_id):
         Project = apps.get_model("project", "Project")
         p = get_object_or_404(Project, id=project_id)
+        print(f"ScreenshotSaver.save({p.id}): {p.maker_fullname}")
         self.driver.get(p.link)
         time.sleep(4)
         raw_image = self.driver.get_screenshot_as_png()
