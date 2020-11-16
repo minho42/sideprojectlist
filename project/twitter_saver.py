@@ -56,6 +56,7 @@ class TwitterSaver:
         if bio:
             p.maker_bio = bio
             p.save()
+            print(f"TwitterSaver.save_bio({p.id}): {p.maker_fullname}")
 
     def save_profile_image(self, project_id) -> None:
         Project = apps.get_model("project", "Project")
@@ -63,3 +64,4 @@ class TwitterSaver:
         url = self._get_profile_image_url(p.twitter_handle)
         if url:
             save_image_from_url(p.maker_avatar, url)
+            print(f"TwitterSaver.save_profile_image({p.id}): {p.maker_fullname}")
