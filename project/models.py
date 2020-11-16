@@ -18,7 +18,6 @@ class Project(TimeStampedModel):
     github_handle = models.CharField(max_length=20, null=True, blank=True)
     producthunt_handle = models.CharField(max_length=20, null=True, blank=True)
     is_approved = models.BooleanField(default=True)
-    submitted_by = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     screenshot = models.ImageField(upload_to="screenshot/", null=True, blank=True)
     maker_avatar = models.ImageField(upload_to="avatar/", null=True, blank=True)
     tags = models.CharField(
@@ -44,6 +43,10 @@ class Project(TimeStampedModel):
             return self.tags.rstrip(",").split(",")
         except AttributeError:
             return ""
+
+    @property
+    def like_count(self):
+        return Like.objects.filter(project=self.id).count()
 
 
 @receiver(post_save, sender=Project)
