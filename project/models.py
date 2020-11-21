@@ -23,6 +23,8 @@ class Project(TimeStampedModel):
     tags = models.CharField(
         max_length=256, null=True, blank=True, help_text="Comma separated strings"
     )
+    cloudinary_screenshot_url = models.URLField(max_length=200, null=True, blank=True)
+    cloudinary_maker_avatar_url = models.URLField(max_length=200, null=True, blank=True)
 
     def __str__(self):
         return f"{self.maker_fullname}"

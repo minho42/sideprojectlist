@@ -14,6 +14,20 @@ from selenium.common.exceptions import WebDriverException
 USER_AGENT = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/69.0.3497.100 Safari/537.36"
 
 
+def save_image_from_url_to_local(url: str, filename=None) -> bool:
+    headers = {"User-Agent": USER_AGENT}
+    r = requests.get(url, headers=headers)
+
+    if r.status_code != requests.codes.ok:
+        return False
+    if not filename:
+        return False
+
+    with open(filename, "wb") as file:
+        file.write(r.content)
+    return True
+
+
 def save_image_from_url(field, url: str, filename=None) -> bool:
     headers = {"User-Agent": USER_AGENT}
     r = requests.get(url, headers=headers)

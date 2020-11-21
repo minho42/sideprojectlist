@@ -17,3 +17,4 @@ staticfiles/
 pytest.ini
 node_modules/
 backup.sql
+static/images

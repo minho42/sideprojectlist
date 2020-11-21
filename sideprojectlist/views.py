@@ -1,19 +1,47 @@
+import json
 from datetime import timedelta
 
 from core.utils import staff_check
 from django.contrib.auth.decorators import user_passes_test
-from django.db.models.functions import TruncDate
 from django.db.models import Q
+from django.db.models.functions import TruncDate
+from django.http import HttpResponseRedirect
 from django.shortcuts import render
+from django.urls import reverse
 from django.utils import timezone
 from profiles.models import User
+from project.models import Project
+from project.tasks import save_info_for_all
 from rest_framework.permissions import IsAdminUser, IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
-from project.tasks import save_info_for_all
-from rest_framework.response import Response
+from django.contrib import messages
+
 from sideprojectlist.celery import app
-from project.models import Project
+
+
+@user_passes_test(staff_check)
+def generate_json(request):
+    data = []
+    DATA_PATH = "data.json"
+
+    for p in Project.objects.all():
+        row = {
+            "id": p.id,
+            "fullname": p.maker_fullname,
+            "twitter_handle": p.twitter_handle,
+            "bio": p.maker_bio,
+            "screenshot_url": p.cloudinary_screenshot_url,
+            "avatar_url": p.cloudinary_maker_avatar_url,
+        }
+        data.append(row)
+
+    with open(DATA_PATH, "w") as file:
+        file.write(json.dumps(data))
+
+    messages.success(request, f"Json({len(data)}) generated to {DATA_PATH}")
+
+    return HttpResponseRedirect(reverse("dashboard"))
 
 
 def home(request):

@@ -3,6 +3,8 @@ from pathlib import Path
 import django_heroku
 import environ
 
+import cloudinary
+
 env = environ.Env(DEBUG=(bool, False))
 environ.Env.read_env()
 
@@ -36,6 +38,7 @@ INSTALLED_APPS = [
     # "allauth.socialaccount.providers.google",
     # "allauth.socialaccount.providers.twitter",
     # "allauth.socialaccount.providers.github",
+    "cloudinary",
     "crispy_forms",
     "crispy_tailwind",
     "rest_framework",
@@ -243,3 +246,9 @@ CELERY_BROKER_URL = "redis://localhost:6379"
 CELERY_RESULT_BACKEND = "redis://localhost:6379"
 
 django_heroku.settings(locals())
+
+cloudinary.config(
+    cloud_name=env("CLOUDINARY_CLOUD_NAME"),
+    api_key=env("CLOUDINARY_API_KEY"),
+    api_secret=env("CLOUDINARY_API_SECRET"),
+)

@@ -1,8 +1,11 @@
+from pathlib import Path
+
+import cloudinary
 from typing import Union
 import environ
 import tweepy
 from tweepy.error import TweepError
-from core.utils import save_image_from_url
+from core.utils import save_image_from_url, save_image_from_url_to_local
 from django.apps import apps
 from django.shortcuts import get_object_or_404
 
@@ -63,5 +66,18 @@ class TwitterSaver:
         p = get_object_or_404(Project, id=project_id)
         url = self._get_profile_image_url(p.twitter_handle)
         if url:
-            save_image_from_url(p.maker_avatar, url)
+            save_image_from_url(field=p.maker_avatar, url=url, filename=p.slug)
             print(f"TwitterSaver.save_profile_image({p.id}): {p.maker_fullname}")
+
+            BASE_DIR = Path(__file__).resolve().parent.parent
+            IMAGE_DIR = BASE_DIR / "static/images"
+            path = f"{IMAGE_DIR}/avatar_{p.slug}.png"
+
+            save_image_from_url_to_local(url=url, filename=path)
+
+            cloudinary_result = cloudinary.uploader.upload(
+                path,
+                use_filename=True,
+            )
+            p.cloudinary_maker_avatar_url = cloudinary_result["secure_url"]
+            p.save()
