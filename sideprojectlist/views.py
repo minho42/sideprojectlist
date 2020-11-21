@@ -34,6 +34,7 @@ def generate_json(request):
             "bio": p.maker_bio,
             "screenshot_url": p.cloudinary_screenshot_url,
             "avatar_url": p.cloudinary_maker_avatar_url,
+            "tags": p.tags_in_list,
         }
         data.append(row)
 
