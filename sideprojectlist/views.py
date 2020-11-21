@@ -25,7 +25,8 @@ def generate_json(request):
     data = []
     DATA_PATH = "data.json"
 
-    for p in Project.objects.all():
+    projects = Project.objects.filter(is_approved=True).order_by("maker_fullname")
+    for p in projects:
         row = {
             "id": p.id,
             "link": p.link,
