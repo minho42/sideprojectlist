@@ -28,6 +28,7 @@ def generate_json(request):
     for p in Project.objects.all():
         row = {
             "id": p.id,
+            "link": p.link,
             "fullname": p.maker_fullname,
             "twitter_handle": p.twitter_handle,
             "bio": p.maker_bio,
