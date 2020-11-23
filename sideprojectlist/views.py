@@ -94,9 +94,14 @@ def dashboard(request):
     ).count()
     count_screenshot_not_saved = Project.objects.filter(screenshot=None).count()
 
+    users_without_bio = Project.objects.filter(twitter_handle__isnull=False).filter(
+        maker_bio__isnull=True
+    )
+
     context["user_count"] = user_count
     context["count_maker_bio_not_saved"] = count_maker_bio_not_saved
     context["count_screenshot_not_saved"] = count_screenshot_not_saved
+    context["users_without_bio"] = users_without_bio
 
     return render(request, template, context)
 

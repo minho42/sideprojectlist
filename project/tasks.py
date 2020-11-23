@@ -15,6 +15,10 @@ def save_info(project_id: int) -> None:
     ts.save_bio(project_id)
     ts.save_profile_image(project_id)
 
+    # TODO call generate_json here for automation
+    # TODO check permission or catch permission exception
+    # generate_json()
+
 
 @shared_task
 def save_info_for_all() -> None:

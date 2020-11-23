@@ -51,6 +51,7 @@ class Project(TimeStampedModel):
         return Like.objects.filter(project=self.id).count()
 
 
+# TODO check permission
 @receiver(post_save, sender=Project)
 # def project_post_save(sender, instance, created, **kwargs):
 def project_post_save(sender, instance, created, raw, using, update_fields, **kwargs):
