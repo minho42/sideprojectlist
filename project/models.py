@@ -11,12 +11,14 @@ from .tasks import save_info
 
 class Project(TimeStampedModel):
     slug = models.SlugField(max_length=100, allow_unicode=True)
-    link = models.URLField(max_length=200)
+    link = models.URLField(max_length=200, unique=True)
     maker_fullname = models.CharField(max_length=100)
     maker_bio = models.TextField(max_length=256, null=True, blank=True)
-    twitter_handle = models.CharField(max_length=20, null=True, blank=True)
-    github_handle = models.CharField(max_length=20, null=True, blank=True)
-    producthunt_handle = models.CharField(max_length=20, null=True, blank=True)
+    twitter_handle = models.CharField(max_length=20, null=True, blank=True, unique=True)
+    github_handle = models.CharField(max_length=20, null=True, blank=True, unique=True)
+    producthunt_handle = models.CharField(
+        max_length=20, null=True, blank=True, unique=True
+    )
     is_approved = models.BooleanField(default=True)
     screenshot = models.ImageField(upload_to="screenshot/", null=True, blank=True)
     maker_avatar = models.ImageField(upload_to="avatar/", null=True, blank=True)
