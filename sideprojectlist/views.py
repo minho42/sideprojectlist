@@ -1,7 +1,7 @@
 import json
 from datetime import timedelta
 
-from core.utils import staff_check
+from core.utils import staff_check, add_q_auto_to_url
 from django.contrib.auth.decorators import user_passes_test
 from django.db.models import Q
 from django.db.models.functions import TruncDate
@@ -25,6 +25,13 @@ def generate_json(request):
     data = []
     DATA_PATH = "data.json"
 
+    if Project.bio_not_saved_count() + Project.screenshot_not_saved_count() > 0:
+        messages.error(
+            request,
+            f"Somethings not saved: bio {Project.bio_not_saved_count()}, screenshot {Project.screenshot_not_saved_count()}",
+        )
+        return HttpResponseRedirect(reverse("dashboard"))
+
     projects = Project.objects.filter(is_approved=True).order_by("maker_fullname")
     for p in projects:
         row = {
@@ -33,8 +40,8 @@ def generate_json(request):
             "fullname": p.maker_fullname,
             "twitter_handle": p.twitter_handle,
             "bio": p.maker_bio,
-            "screenshot_url": p.cloudinary_screenshot_url,
-            "avatar_url": p.cloudinary_maker_avatar_url,
+            "screenshot_url": add_q_auto_to_url(p.cloudinary_screenshot_url),
+            "avatar_url": add_q_auto_to_url(p.cloudinary_maker_avatar_url),
             "tags": p.tags_in_list,
         }
         data.append(row)
@@ -68,9 +75,7 @@ class AsyncSaveInfoForAll(APIView):
 @user_passes_test(staff_check)
 def async_save_info_for_all(request):
     save_info_for_all.apply_async(
-        args=(),
-        link=success_callback_for_async_save_info_for_all.s(),
-        link_error=None,
+        args=(), link=success_callback_for_async_save_info_for_all.s(), link_error=None,
     )
     return Response([{"response": "OK"}])
 
@@ -89,19 +94,12 @@ def dashboard(request):
     user_count = (
         User.objects.exclude(is_superuser=True).exclude(is_active=False).count()
     )
-    count_maker_bio_not_saved = Project.objects.filter(
-        ~Q(twitter_handle=None) & Q(maker_bio=None)
-    ).count()
-    count_screenshot_not_saved = Project.objects.filter(screenshot=None).count()
-
-    users_without_bio = Project.objects.filter(twitter_handle__isnull=False).filter(
-        maker_bio__isnull=True
-    )
 
     context["user_count"] = user_count
-    context["count_maker_bio_not_saved"] = count_maker_bio_not_saved
-    context["count_screenshot_not_saved"] = count_screenshot_not_saved
-    context["users_without_bio"] = users_without_bio
+    context["bio_not_saved_count"] = Project.bio_not_saved_count()
+    context["screenshot_not_saved_count"] = Project.screenshot_not_saved_count()
+    context["users_without_bio"] = Project.users_without_bio()
+    context["users_without_screenshot"] = Project.users_without_screenshot()
 
     return render(request, template, context)
 
