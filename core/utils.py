@@ -14,6 +14,12 @@ from selenium.common.exceptions import WebDriverException
 USER_AGENT = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/69.0.3497.100 Safari/537.36"
 
 
+def add_q_auto_to_url(url: str) -> str:
+    if not url:
+        return
+    return url.replace("/upload/", "/upload/q_auto/")
+
+
 def save_image_from_url_to_local(url: str, filename=None) -> bool:
     headers = {"User-Agent": USER_AGENT}
     r = requests.get(url, headers=headers)
@@ -64,8 +70,7 @@ def get_chromedriver(headless: bool = True) -> Union[object, None]:
 
     try:
         driver = webdriver.Chrome(
-            os.environ.get("CHROME_DRIVER_PATH"),
-            options=options,
+            os.environ.get("CHROME_DRIVER_PATH"), options=options,
         )
         driver.set_window_size(1024, 768)
         # if settings.DEBUG:
