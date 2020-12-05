@@ -142,12 +142,8 @@ AUTH_PASSWORD_VALIDATORS = [
         #     "min_length": 9,
         # },
     },
-    {
-        "NAME": "django.contrib.auth.password_validation.CommonPasswordValidator",
-    },
-    {
-        "NAME": "django.contrib.auth.password_validation.NumericPasswordValidator",
-    },
+    {"NAME": "django.contrib.auth.password_validation.CommonPasswordValidator",},
+    {"NAME": "django.contrib.auth.password_validation.NumericPasswordValidator",},
 ]
 
 
@@ -227,7 +223,7 @@ CELERY_TASK_SERIALIZER = "json"
 CELERY_RESULT_SERIALIZER = "json"
 # CELERY_ENABLE_UTC = True
 CELERY_TIMEZONE = "Australia/ACT"
-CELERY_TASK_SOFT_TIME_LIMIT = 600
+CELERY_TASK_SOFT_TIME_LIMIT = 1800
 
 
 # https://django-csp.readthedocs.io/en/latest/
