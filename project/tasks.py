@@ -24,6 +24,6 @@ def save_info(project_id: int) -> None:
 def save_info_for_all() -> None:
     Project = apps.get_model("project", "Project")
     total = Project.objects.count()
-    for index, p in Project.objects.all():
-        print(f"{index+1}/{total}")
+    for p in Project.objects.all():
+        # print(f"{index+1}/{total}")
         save_info(p.id)
