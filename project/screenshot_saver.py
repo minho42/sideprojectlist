@@ -1,8 +1,8 @@
-import cloudinary
 import time
 from pathlib import Path
 
-from core.utils import get_chromedriver
+import cloudinary
+from core.utils import add_q_auto_to_url, get_chromedriver
 from django.apps import apps
 from django.core.files import File
 from django.core.files.temp import NamedTemporaryFile
@@ -40,11 +40,8 @@ class ScreenshotSaver:
         self.driver.get_screenshot_as_file(path)
 
         # TODO catch FileNotFoundError
-        cloudinary_result = cloudinary.uploader.upload(
-            path,
-            use_filename=True,
-        )
-        p.cloudinary_screenshot_url = cloudinary_result["secure_url"]
+        cloudinary_result = cloudinary.uploader.upload(path, use_filename=True,)
+        p.cloudinary_screenshot_url = add_q_auto_to_url(cloudinary_result["secure_url"])
         p.save()
 
     def __del__(self):
