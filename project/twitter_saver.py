@@ -1,13 +1,17 @@
 from pathlib import Path
+from typing import Union
 
 import cloudinary
-from typing import Union
 import environ
 import tweepy
-from tweepy.error import TweepError
-from core.utils import save_image_from_url, save_image_from_url_to_local
+from core.utils import (
+    add_q_auto_to_url,
+    save_image_from_url,
+    save_image_from_url_to_local,
+)
 from django.apps import apps
 from django.shortcuts import get_object_or_404
+from tweepy.error import TweepError
 
 env = environ.Env()
 environ.Env.read_env()
@@ -22,8 +26,7 @@ class TwitterSaver:
             env("TWITTER_CONSUMER_KEY"), env("TWITTER_CONSUMER_SECRET")
         )
         auth.set_access_token(
-            env("TWITTER_ACCESS_TOKEN"),
-            env("TWITTER_ACCESS_TOKEN_SECRET"),
+            env("TWITTER_ACCESS_TOKEN"), env("TWITTER_ACCESS_TOKEN_SECRET"),
         )
 
         api = tweepy.API(auth)
@@ -75,9 +78,8 @@ class TwitterSaver:
 
             save_image_from_url_to_local(url=url, filename=path)
 
-            cloudinary_result = cloudinary.uploader.upload(
-                path,
-                use_filename=True,
+            cloudinary_result = cloudinary.uploader.upload(path, use_filename=True,)
+            p.cloudinary_maker_avatar_url = add_q_auto_to_url(
+                cloudinary_result["secure_url"]
             )
-            p.cloudinary_maker_avatar_url = cloudinary_result["secure_url"]
             p.save()
