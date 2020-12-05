@@ -5,6 +5,7 @@ from django.dispatch import receiver
 from django.urls import reverse
 from django.utils.text import slugify
 from sideprojectlist.models import TimeStampedModel
+from django.db.models import Q
 
 from .tasks import save_info
 
@@ -51,6 +52,26 @@ class Project(TimeStampedModel):
     @property
     def like_count(self):
         return Like.objects.filter(project=self.id).count()
+
+    @classmethod
+    def bio_not_saved_count(cls):
+        return Project.objects.filter(
+            ~Q(twitter_handle=None) & Q(maker_bio=None)
+        ).count()
+
+    @classmethod
+    def screenshot_not_saved_count(cls):
+        return Project.objects.filter(screenshot=None).count()
+
+    @classmethod
+    def users_without_bio(cls):
+        return Project.objects.filter(twitter_handle__isnull=False).filter(
+            maker_bio__isnull=True
+        )
+
+    @classmethod
+    def users_without_screenshot(cls):
+        return Project.objects.filter(cloudinary_screenshot_url__isnull=True)
 
 
 # TODO check permission
