@@ -36,8 +36,8 @@
         <div class="border-b border-gray-400 ">
           <a href="{{ project.link }}" target="_blank" rel="noopener noreferrer"
             class="flex flex-col items-center justify-center text-indigo-700 hover:text-indigo-700 hover:underline">
-            {% if project.screenshot %}
-            <img class="w-full rounded-t-xl" src="{{ MEDIA_URL }}{{ project.screenshot }}" alt="screenshot">
+            {% if project.cloudinary_screenshot_url %}
+            <img class="w-full rounded-t-xl" src="{{ project.cloudinary_screenshot_url }}" alt="screenshot">
             {% else %}
             {{ project.link }}
             {% endif  %}
@@ -75,8 +75,8 @@
 
           <div class="flex items-center justify-start flex-wrap">
             <div class="flex-shrink-0">
-              {% if project.maker_avatar %}
-              <img class="w-8 rounded-full mr-1" src="{{ MEDIA_URL }}{{ project.maker_avatar }}" alt="twitter avatar">
+              {% if project.cloudinary_maker_avatar_url %}
+              <img class="w-8 rounded-full mr-1" src="{{ project.cloudinary_maker_avatar_url }}" alt="twitter avatar">
               {% else %}
               <!-- user-circle -->
               <svg class="w-8 mr-1 text-gray-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"
