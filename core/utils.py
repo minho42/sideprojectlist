@@ -14,6 +14,15 @@ from selenium.common.exceptions import WebDriverException
 USER_AGENT = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/69.0.3497.100 Safari/537.36"
 
 
+def revert_tco_url(tco_url: str) -> str:
+    """
+    https://t.co/W04Bqpqg1w -> sideprojectlist.co
+    """
+    r = requests.head(tco_url)
+    original_url = r.headers["location"]
+    return original_url.lstrip("https://").rstrip("/")
+
+
 def add_q_auto_to_url(url: str) -> str:
     if not url:
         return
@@ -61,6 +70,7 @@ def get_chromedriver(headless: bool = True) -> Union[object, None]:
     options.add_argument("--no-sandbox")
     options.add_argument("--disable-gpu")
     options.add_argument("--disable-dev-shm-usage")
+    options.add_argument("--hide-scrollbars")
     options.add_argument(
         "--remote-debugging-port=9222"
     )  # Trying to fix WebDriverException("unknown error: DevToolsActivePort file doesn't exist", None, None)
@@ -70,7 +80,8 @@ def get_chromedriver(headless: bool = True) -> Union[object, None]:
 
     try:
         driver = webdriver.Chrome(
-            os.environ.get("CHROME_DRIVER_PATH"), options=options,
+            os.environ.get("CHROME_DRIVER_PATH"),
+            options=options,
         )
         driver.set_window_size(1024, 768)
         # if settings.DEBUG:
