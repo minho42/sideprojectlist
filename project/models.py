@@ -43,6 +43,30 @@ class Project(TimeStampedModel):
         unique_together = [["link", "maker_fullname"]]
 
     @property
+    def is_screenshot_not_saved(self):
+        if self.screenshot and self.cloudinary_screenshot_url:
+            return False
+        return True
+
+    @property
+    def is_bio_not_saved(self):
+        if self.twitter_handle and not self.maker_bio:
+            return True
+        return False
+
+    @property
+    def is_avatar_not_saved(self):
+        if not self.twitter_handle:
+            return False
+        if self.maker_avatar and self.cloudinary_maker_avatar_url:
+            return False
+        return True
+
+    @property
+    def is_twitter_info_not_saved(self):
+        return self.is_bio_not_saved or self.is_avatar_not_saved
+
+    @property
     def tags_in_list(self):
         try:
             return self.tags.rstrip(",").split(",")

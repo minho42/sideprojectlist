@@ -8,8 +8,8 @@ from .twitter_saver import TwitterSaver
 
 @shared_task
 def save_info(project_id: int) -> None:
-    with ScreenshotSaver() as SS:
-        SS.save(project_id)
+    with ScreenshotSaver() as ss:
+        ss.save(project_id)
 
     ts = TwitterSaver()
     ts.save_bio(project_id)

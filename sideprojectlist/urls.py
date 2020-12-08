@@ -18,6 +18,11 @@ urlpatterns = [
         name="save-info-for-all",
     ),
     path(
+        "api/save-info-for-each/<int:id>/",
+        views.save_info_for_each,
+        name="save-info-for-each",
+    ),
+    path(
         "api/signup-count/",
         views.ChartDataSignupCount.as_view(),
         name="api_signup_count",

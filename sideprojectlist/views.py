@@ -11,12 +11,11 @@ from django.urls import reverse
 from django.utils import timezone
 from profiles.models import User
 from project.models import Project
-from project.tasks import save_info_for_all
+from project.tasks import save_info_for_all, ScreenshotSaver, TwitterSaver
 from rest_framework.permissions import IsAdminUser, IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from django.contrib import messages
-
 from sideprojectlist.celery import app
 
 
@@ -65,6 +64,18 @@ def about(request):
     return render(request, template)
 
 
+@user_passes_test(staff_check)
+def save_info_for_each(request, project_id: int):
+    with ScreenshotSaver() as ss:
+        ss.save(project_id)
+
+    ts = TwitterSaver()
+    ts.save_bio(project_id)
+    ts.save_profile_image(project_id)
+    messages.success(request, f"save_info_for_each({project_id})")
+    return HttpResponseRedirect(reverse("dashboard"))
+
+
 class AsyncSaveInfoForAll(APIView):
     permission_classes = [IsAuthenticated]
 
@@ -75,7 +86,9 @@ class AsyncSaveInfoForAll(APIView):
 @user_passes_test(staff_check)
 def async_save_info_for_all(request):
     save_info_for_all.apply_async(
-        args=(), link=success_callback_for_async_save_info_for_all.s(), link_error=None,
+        args=(),
+        link=success_callback_for_async_save_info_for_all.s(),
+        link_error=None,
     )
     return Response([{"response": "OK"}])
 
@@ -96,10 +109,11 @@ def dashboard(request):
     )
 
     context["user_count"] = user_count
-    context["bio_not_saved_count"] = Project.bio_not_saved_count()
-    context["screenshot_not_saved_count"] = Project.screenshot_not_saved_count()
+    # context["bio_not_saved_count"] = Project.bio_not_saved_count()
+    # context["screenshot_not_saved_count"] = Project.screenshot_not_saved_count()
     context["users_without_bio"] = Project.users_without_bio()
     context["users_without_screenshot"] = Project.users_without_screenshot()
+    context["projects"] = Project.objects.order_by("-created")
 
     return render(request, template, context)
 

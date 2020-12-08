@@ -24,21 +24,21 @@
   </div>
 
   <div class="flex flex-col items-center justify-center text-center w-1/2 mt-4 ">
-    <div>
+    <!-- <div>
       Screenshot not saved: {{ screenshot_not_saved_count }}
     </div>
     <div>
       Bio not saved: {{ bio_not_saved_count }}
-    </div>
+    </div> -->
 
     <button @click="saveInfoForAll"
-      class="capitalize bg-red-600 hover:bg-red-500 text-white px-4 py-2 mt-2 rounded-lg tracking-wide">
-      Save screenshots/bios for all
+      class="bg-orange-600 hover:bg-orange-500 text-white px-4 py-2 mt-2 rounded-lg tracking-wide">
+      Save screenshots/bios for all (async)
     </button>
 
     <a href="{% url 'generate-json' %}"
-      class="capitalize bg-green-600 hover:bg-green-500 text-white px-4 py-2 mt-2 rounded-lg tracking-wide">
-      Generate json
+      class="bg-green-600 hover:bg-green-500 text-white px-4 py-2 mt-2 rounded-lg tracking-wide">
+      Generate json (sync)
     </a>
 
     <div class="mt-6">
@@ -60,11 +60,47 @@
       {% if users_without_screenshot %}
       {% for user in users_without_screenshot %}
       {{user.maker_fullname}}
-      <button class="">Fetch bio (fake)</button>
       {% endfor %}
       {% endif %}
     </div>
 
+    <div class="mt-6">
+      <div class="text-lg font-semibold">
+        Projects ({{projects|length}})
+      </div>
+      {% if projects %}
+      {% for project in projects %}
+      <div class="flex items-center mt-1">
+        {{ project.id }}
+        {{ project.maker_fullname }}
+
+
+        {% if project.is_screenshot_not_saved %}
+        <div class="bg-red-600 text-white rounded-lg ml-2 px-2">
+          screenshot: x
+        </div>
+        {% endif %}
+
+        {% if project.is_bio_not_saved %}
+        <div class="bg-red-600 text-white rounded-lg ml-2 px-2">
+          bio: x
+        </div>
+        {% endif %}
+
+        {% if project.is_avatar_not_saved %}
+        <div class="bg-red-600 text-white rounded-lg ml-2 px-2">
+          avatar: x
+        </div>
+        {% endif %}
+
+        {% if project.is_screenshot_not_saved or project.is_twitter_info_not_saved %}
+        <a href="{% url 'save-info-for-each' project.id %}"
+          class="bg-indigo-600 text-white px-2 py-1 ml-2 rounded">Fetch screenshot/bio (sync)</a>
+        {% endif %}
+      </div>
+      {% endfor %}
+      {% endif %}
+    </div>
 
   </div>
 
