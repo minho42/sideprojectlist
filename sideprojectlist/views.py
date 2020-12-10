@@ -35,6 +35,7 @@ def generate_json(request):
     for p in projects:
         row = {
             "id": p.id,
+            "slug": p.slug,
             "link": p.link,
             "fullname": p.maker_fullname,
             "twitter_handle": p.twitter_handle,
