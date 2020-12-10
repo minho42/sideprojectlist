@@ -93,10 +93,13 @@
         </div>
         {% endif %}
 
-        {% if project.is_screenshot_not_saved or project.is_twitter_info_not_saved %}
-        <a href="{% url 'save-info-for-each' project.id %}"
-          class="bg-indigo-600 text-white px-2 py-1 ml-2 rounded">Fetch screenshot/bio (sync)</a>
-        {% endif %}
+
+        <a href="{% url 'save-info-for-each' project.id %}" class="{% if project.is_screenshot_not_saved or project.is_twitter_info_not_saved %}
+          bg-indigo-600 
+          {% else %}
+          bg-gray-600 
+          {% endif %}
+          text-white px-2 py-1 ml-2 rounded">Fetch screenshot/bio (sync)</a>
       </div>
       {% endfor %}
       {% endif %}
