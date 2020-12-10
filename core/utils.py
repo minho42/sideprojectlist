@@ -20,7 +20,7 @@ def revert_tco_url(tco_url: str) -> str:
     """
     r = requests.head(tco_url)
     original_url = r.headers["location"]
-    return original_url.lstrip("https://").rstrip("/")
+    return original_url.split("https://", 1)[-1].rstrip("/")
 
 
 def add_q_auto_to_url(url: str) -> str:
