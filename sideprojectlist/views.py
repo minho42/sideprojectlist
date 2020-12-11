@@ -84,10 +84,73 @@ class AsyncSaveInfoForAll(APIView):
         return async_save_info_for_all(request)
 
 
+class AsyncSaveScreenshotForAll(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request):
+        return async_save_screenshot_for_all(request)
+
+
+class AsyncSaveAvatarForAll(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request):
+        return async_save_avatar_for_all(request)
+
+
+class AsyncSaveBioForAll(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request):
+        return async_save_bio_for_all(request)
+
+
 @user_passes_test(staff_check)
 def async_save_info_for_all(request):
+    screenshot = False
+    avatar = True
+    bio = True
     save_info_for_all.apply_async(
-        args=(),
+        args=(screenshot, avatar, bio),
+        link=success_callback_for_async_save_info_for_all.s(),
+        link_error=None,
+    )
+    return Response([{"response": "OK"}])
+
+
+@user_passes_test(staff_check)
+def async_save_screenshot_for_all(request):
+    screenshot = True
+    avatar = False
+    bio = False
+    save_info_for_all.apply_async(
+        args=(screenshot, avatar, bio),
+        link=success_callback_for_async_save_info_for_all.s(),
+        link_error=None,
+    )
+    return Response([{"response": "OK"}])
+
+
+@user_passes_test(staff_check)
+def async_save_avatar_for_all(request):
+    screenshot = False
+    avatar = True
+    bio = False
+    save_info_for_all.apply_async(
+        args=(screenshot, avatar, bio),
+        link=success_callback_for_async_save_info_for_all.s(),
+        link_error=None,
+    )
+    return Response([{"response": "OK"}])
+
+
+@user_passes_test(staff_check)
+def async_save_bio_for_all(request):
+    screenshot = False
+    avatar = False
+    bio = True
+    save_info_for_all.apply_async(
+        args=(screenshot, avatar, bio),
         link=success_callback_for_async_save_info_for_all.s(),
         link_error=None,
     )

@@ -18,6 +18,21 @@ urlpatterns = [
         name="save-info-for-all",
     ),
     path(
+        "api/save-screenshot-for-all/",
+        views.AsyncSaveScreenshotForAll.as_view(),
+        name="save-screenshot-for-all",
+    ),
+    path(
+        "api/save-avatar-for-all/",
+        views.AsyncSaveAvatarForAll.as_view(),
+        name="save-avatar-for-all",
+    ),
+    path(
+        "api/save-bio-for-all/",
+        views.AsyncSaveBioForAll.as_view(),
+        name="save-bio-for-all",
+    ),
+    path(
         "api/save-info-for-each/<int:id>/",
         views.save_info_for_each,
         name="save-info-for-each",

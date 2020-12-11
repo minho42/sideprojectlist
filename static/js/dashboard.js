@@ -125,6 +125,41 @@ var vm = new Vue({
           console.log("saveInfoForAll().axios.get error: " + error.message);
         });
     },
+    saveScreenshotForAll() {
+      console.log("saveScreenshotForAll");
+      axios
+        .get("/api/save-screenshot-for-all/")
+        .then((response) => {
+          console.log(response.data);
+        })
+        .catch((error) => {
+          console.log(
+            "saveScreenshotForAll().axios.get error: " + error.message
+          );
+        });
+    },
+    saveAvatarForAll() {
+      console.log("saveAvatarForAll");
+      axios
+        .get("/api/save-avatar-for-all/")
+        .then((response) => {
+          console.log(response.data);
+        })
+        .catch((error) => {
+          console.log("saveAvatarForAll().axios.get error: " + error.message);
+        });
+    },
+    saveBioForAll() {
+      console.log("saveBioForAll");
+      axios
+        .get("/api/save-bio-for-all/")
+        .then((response) => {
+          console.log(response.data);
+        })
+        .catch((error) => {
+          console.log("saveBioForAll().axios.get error: " + error.message);
+        });
+    },
     getSignupCount() {
       console.log("getSignupCount()");
       var self = this;
