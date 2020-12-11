@@ -1,3 +1,4 @@
+import re
 from pathlib import Path
 from typing import Union
 
@@ -6,6 +7,7 @@ import environ
 import tweepy
 from core.utils import (
     add_q_auto_to_url,
+    revert_tco_url,
     save_image_from_url,
     save_image_from_url_to_local,
 )
@@ -26,7 +28,8 @@ class TwitterSaver:
             env("TWITTER_CONSUMER_KEY"), env("TWITTER_CONSUMER_SECRET")
         )
         auth.set_access_token(
-            env("TWITTER_ACCESS_TOKEN"), env("TWITTER_ACCESS_TOKEN_SECRET"),
+            env("TWITTER_ACCESS_TOKEN"),
+            env("TWITTER_ACCESS_TOKEN_SECRET"),
         )
 
         api = tweepy.API(auth)
@@ -45,7 +48,9 @@ class TwitterSaver:
         user = self._get_user(handle)
         if not user:
             return
-        return user.description
+        bio = user.description
+        bio = re.sub(r"(https://t.co/\w+)", lambda x: revert_tco_url(x.group()), bio)
+        return bio
 
     def _get_profile_image_url(self, handle: str) -> Union[str, None]:
         user = self._get_user(handle)
@@ -78,7 +83,10 @@ class TwitterSaver:
 
             save_image_from_url_to_local(url=url, filename=path)
 
-            cloudinary_result = cloudinary.uploader.upload(path, use_filename=True,)
+            cloudinary_result = cloudinary.uploader.upload(
+                path,
+                use_filename=True,
+            )
             p.cloudinary_maker_avatar_url = add_q_auto_to_url(
                 cloudinary_result["secure_url"]
             )
