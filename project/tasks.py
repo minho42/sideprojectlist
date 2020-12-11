@@ -29,4 +29,4 @@ def save_info_for_all(screenshot=True, avatar=True, bio=True) -> None:
     total = Project.objects.count()
     for p in Project.objects.all():
         # print(f"{index+1}/{total}")
-        save_info(p.id, screenshot=True, avatar=True, bio=True)
+        save_info(p.id, screenshot, avatar, bio)
