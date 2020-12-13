@@ -16,6 +16,7 @@ class Project(TimeStampedModel):
     maker_fullname = models.CharField(max_length=100)
     maker_bio = models.TextField(max_length=256, null=True, blank=True)
     twitter_handle = models.CharField(max_length=20, null=True, blank=True, unique=True)
+    twitter_followers_count = models.PositiveIntegerField(default=0)
     github_handle = models.CharField(max_length=20, null=True, blank=True, unique=True)
     producthunt_handle = models.CharField(
         max_length=20, null=True, blank=True, unique=True
