@@ -44,6 +44,12 @@ class TwitterSaver:
             user = None
         return user
 
+    def _get_followers_count(self, handle: str) -> int:
+        user = self._get_user(handle)
+        if not user:
+            return 0
+        return user.followers_count
+
     def _get_bio(self, handle: str) -> Union[str, None]:
         user = self._get_user(handle)
         if not user:
@@ -57,6 +63,17 @@ class TwitterSaver:
         if not user:
             return
         return user.profile_image_url_https
+
+    def save_followers_count(self, project_id) -> None:
+        Project = apps.get_model("project", "Project")
+        p = get_object_or_404(Project, id=project_id)
+        if not p.twitter_handle:
+            return
+        count = self._get_followers_count(p.twitter_handle)
+        if count:
+            p.followers_count = count
+            p.save()
+            print(f"TwitterSaver.save_followers_count({p.id}): {p.maker_fullname}")
 
     def save_bio(self, project_id) -> None:
         Project = apps.get_model("project", "Project")
