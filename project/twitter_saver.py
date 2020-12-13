@@ -71,7 +71,7 @@ class TwitterSaver:
             return
         count = self._get_followers_count(p.twitter_handle)
         if count:
-            p.followers_count = count
+            p.twitter_followers_count = count
             p.save()
             print(f"TwitterSaver.save_followers_count({p.id}): {p.maker_fullname}")
 
