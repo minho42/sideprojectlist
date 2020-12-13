@@ -39,6 +39,7 @@ def generate_json(request):
             "link": p.link,
             "fullname": p.maker_fullname,
             "twitter_handle": p.twitter_handle,
+            "github_handle": p.github_handle,
             "bio": p.maker_bio,
             "screenshot_url": add_q_auto_to_url(p.cloudinary_screenshot_url),
             "avatar_url": add_q_auto_to_url(p.cloudinary_maker_avatar_url),
