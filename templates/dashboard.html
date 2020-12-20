@@ -33,7 +33,7 @@
 
     <button @click="saveInfoForAll"
       class="bg-orange-600 hover:bg-orange-500 text-white px-4 py-2 mt-2 rounded-lg tracking-wide">
-      Save screenshot/avatar/bio for all (async)
+      Save screenshot/twitter_info for all (async)
     </button>
 
     <button @click="saveScreenshotForAll"
@@ -41,14 +41,9 @@
       Save screenshot for all (async)
     </button>
 
-    <button @click="saveAvatarForAll"
+    <button @click="saveTwitterInfoForAll"
       class="bg-orange-600 hover:bg-orange-500 text-white px-4 py-2 mt-2 rounded-lg tracking-wide">
-      Save avatar for all (async)
-    </button>
-
-    <button @click="saveBioForAll"
-      class="bg-orange-600 hover:bg-orange-500 text-white px-4 py-2 mt-2 rounded-lg tracking-wide">
-      Save bio for all (async)
+      Save twitter_info for all (async)
     </button>
 
     <a href="{% url 'generate-json' %}"

@@ -138,26 +138,17 @@ var vm = new Vue({
           );
         });
     },
-    saveAvatarForAll() {
-      console.log("saveAvatarForAll");
+    saveTwitterInfoForAll() {
+      console.log("saveTwitterInfoForAll");
       axios
-        .get("/api/save-avatar-for-all/")
+        .get("/api/save-twitter-info-for-all/")
         .then((response) => {
           console.log(response.data);
         })
         .catch((error) => {
-          console.log("saveAvatarForAll().axios.get error: " + error.message);
-        });
-    },
-    saveBioForAll() {
-      console.log("saveBioForAll");
-      axios
-        .get("/api/save-bio-for-all/")
-        .then((response) => {
-          console.log(response.data);
-        })
-        .catch((error) => {
-          console.log("saveBioForAll().axios.get error: " + error.message);
+          console.log(
+            "saveTwitterInfoForAll().axios.get error: " + error.message
+          );
         });
     },
     getSignupCount() {

@@ -23,14 +23,9 @@ urlpatterns = [
         name="save-screenshot-for-all",
     ),
     path(
-        "api/save-avatar-for-all/",
-        views.AsyncSaveAvatarForAll.as_view(),
-        name="save-avatar-for-all",
-    ),
-    path(
-        "api/save-bio-for-all/",
-        views.AsyncSaveBioForAll.as_view(),
-        name="save-bio-for-all",
+        "api/save-twitter-info-for-all/",
+        views.AsyncSaveTwitterInfoForAll.as_view(),
+        name="save-twitter-info-for-all",
     ),
     path(
         "api/save-info-for-each/<int:id>/",

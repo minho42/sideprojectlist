@@ -7,16 +7,15 @@ from .twitter_saver import TwitterSaver
 
 
 @shared_task
-def save_info(project_id: int, screenshot=True, avatar=True, bio=True) -> None:
+def save_info(project_id: int, screenshot=True, twitter_info=True) -> None:
     if screenshot:
         with ScreenshotSaver() as ss:
             ss.save(project_id)
 
     ts = TwitterSaver()
-    if bio:
+    if twitter_info:
         ts.save_bio(project_id)
         ts.save_followers_count(project_id)
-    if avatar:
         ts.save_profile_image(project_id)
 
     # TODO call generate_json here for automation
@@ -25,9 +24,9 @@ def save_info(project_id: int, screenshot=True, avatar=True, bio=True) -> None:
 
 
 @shared_task
-def save_info_for_all(screenshot=True, avatar=True, bio=True) -> None:
+def save_info_for_all(screenshot=True, twitter_info=True) -> None:
     Project = apps.get_model("project", "Project")
     total = Project.objects.count()
     for p in Project.objects.all():
         # print(f"{index+1}/{total}")
-        save_info(p.id, screenshot, avatar, bio)
+        save_info(p.id, screenshot, twitter_info)
