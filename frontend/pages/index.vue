@@ -22,9 +22,7 @@ export default {
   },
   created() {
     axios
-      .get(
-        "https://raw.githubusercontent.com/minho42/sideprojectlist/master/data.json"
-      )
+      .get("data.json")
       .then((response) => (this.projectData = response.data))
       .catch((error) => {
         console.log(error)
