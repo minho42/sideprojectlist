@@ -15,6 +15,10 @@ export default {
         hid: "description",
         name: "description",
         content: "A list of awesome personal side projects"
+      },
+      {
+        name: "google-site-verification",
+        content: "d8mgI-y3HJAOse-68qe3guLscMi3omgLDbd0V8829UU"
       }
     ],
     link: [{ rel: "icon", type: "image/x-icon", href: "/favicon.ico" }]
