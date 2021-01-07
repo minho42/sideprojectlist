@@ -1,12 +1,8 @@
 <template>
   <div class="mx-1">
-    <div class="flex items-center pt-4 pb-2 mx-4"
-    :class="isLoading ? 'justify-center' : 'justify-start'">
+    <div class="flex items-center pt-4 pb-2 mx-4 justify-start">
       <div class="flex items-center text-2xl font-semibold">
-        <div v-if="isLoading">
-          Loading...
-        </div>
-        <div v-else> 
+        <div> 
           <TagList 
           @setSelectedTag="setSelectedTag($event)" 
           :projectData="projectData" 
@@ -92,8 +88,6 @@
             </div>
             
           </div>
-          
-          
               
         </div>
       </div>
@@ -131,7 +125,6 @@ export default {
   },
   props: {
     projectData: Array,
-    isLoading: Boolean,
   },
   methods: {
     setSelectedTag(tag) {
@@ -163,9 +156,9 @@ export default {
       })
     }
   },
-  // created() {
-    // this.sortTwitterFollowersCount()
-  // },
+  created() {
+    this.sortTwitterFollowersCount()
+  },
   
 };
 </script>

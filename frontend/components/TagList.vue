@@ -47,15 +47,6 @@ export default {
         })
     })
     
-    // this.projectData.sort(()=> {
-    //   return Math.random() - 0.5
-    // })
-    
-    // TODO Move this duplicate sorting block inside ProjectList.created()
-    this.projectData.sort((a,b)=> {
-        return a.twitter_followers_count < b.twitter_followers_count ? 1 : (a.twitter_followers_count > b.twitter_followers_count ? -1 : 0)
-    })
-    
     this.uniqueTags.sort((a,b) => {
       return a.count < b.count ? 1 : (a.count > b.count ? -1 : 
       a.name > b.name ? 1 : (a.name < b.name ? -1 : 0)
