@@ -1,7 +1,7 @@
 <template>
   <div class="container">
     <div class="flex flex-col items-center justify-center mx-6 pt-4">
-      <div class="text-2xl leading-8 mb-6">
+      <div class="font-semibold mb-6">
         A list of awesome personal side projects.
       </div>
       <div class="mb-4">
@@ -18,13 +18,6 @@
         <span class="font-semibold">
           /projects.
         </span>
-      </div>
-      <!-- <div>
-        See also...
-      </div> -->
-      <div class="mb-6 text-center">
-        Submit a project to: sideprojectlist@gmail.com (with url, fullname,
-        twitter_handle, etc)
       </div>
 
       <div class="mb-2">
@@ -50,8 +43,7 @@
           </svg>
         </a>
       </div>
-
-      <div class="">© Side Project List</div>
+      
     </div>
   </div>
 </template>
