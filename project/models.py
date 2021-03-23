@@ -18,15 +18,10 @@ class Project(TimeStampedModel):
     twitter_handle = models.CharField(max_length=20, null=True, blank=True, unique=True)
     twitter_followers_count = models.PositiveIntegerField(default=0)
     github_handle = models.CharField(max_length=20, null=True, blank=True, unique=True)
-    producthunt_handle = models.CharField(
-        max_length=20, null=True, blank=True, unique=True
-    )
     is_approved = models.BooleanField(default=True)
     screenshot = models.ImageField(upload_to="screenshot/", null=True, blank=True)
     maker_avatar = models.ImageField(upload_to="avatar/", null=True, blank=True)
-    tags = models.CharField(
-        max_length=256, null=True, blank=True, help_text="Comma separated strings"
-    )
+    tags = models.CharField(max_length=256, null=True, blank=True, help_text="Comma separated strings")
     cloudinary_screenshot_url = models.URLField(max_length=200, null=True, blank=True)
     cloudinary_maker_avatar_url = models.URLField(max_length=200, null=True, blank=True)
 
@@ -80,9 +75,7 @@ class Project(TimeStampedModel):
 
     @classmethod
     def bio_not_saved_count(cls):
-        return Project.objects.filter(
-            ~Q(twitter_handle=None) & Q(maker_bio=None)
-        ).count()
+        return Project.objects.filter(~Q(twitter_handle=None) & Q(maker_bio=None)).count()
 
     @classmethod
     def screenshot_not_saved_count(cls):
@@ -90,9 +83,7 @@ class Project(TimeStampedModel):
 
     @classmethod
     def users_without_bio(cls):
-        return Project.objects.filter(twitter_handle__isnull=False).filter(
-            maker_bio__isnull=True
-        )
+        return Project.objects.filter(twitter_handle__isnull=False).filter(maker_bio__isnull=True)
 
     @classmethod
     def users_without_screenshot(cls):
@@ -115,12 +106,8 @@ def project_post_save(sender, instance, created, raw, using, update_fields, **kw
 
 
 class Like(models.Model):
-    project = models.ForeignKey(
-        Project, related_name="liked_project", on_delete=models.CASCADE
-    )
-    user = models.ForeignKey(
-        settings.AUTH_USER_MODEL, related_name="liked_user", on_delete=models.CASCADE
-    )
+    project = models.ForeignKey(Project, related_name="liked_project", on_delete=models.CASCADE)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, related_name="liked_user", on_delete=models.CASCADE)
     created = models.DateTimeField(auto_now_add=True, blank=True, null=True)
 
     def __str__(self):
