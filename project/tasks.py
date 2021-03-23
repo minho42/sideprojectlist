@@ -27,6 +27,6 @@ def save_info(project_id: int, screenshot=True, twitter_info=True) -> None:
 def save_info_for_all(screenshot=True, twitter_info=True) -> None:
     Project = apps.get_model("project", "Project")
     total = Project.objects.count()
-    for p in Project.objects.order_by('maker_fullname'):
+    for p in Project.objects.order_by("maker_fullname"):
         # print(f"{index+1}/{total}")
         save_info(p.id, screenshot, twitter_info)
