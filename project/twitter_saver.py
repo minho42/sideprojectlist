@@ -53,9 +53,10 @@ class TwitterSaver:
     def _get_bio(self, handle: str) -> Union[str, None]:
         user = self._get_user(handle)
         if not user:
-            return
-        bio = user.description
-        bio = re.sub(r"(https://t.co/\w+)", lambda x: revert_tco_url(x.group()), bio)
+            bio = None
+        else:
+            bio = user.description
+            bio = re.sub(r"(https://t.co/\w+)", lambda x: revert_tco_url(x.group()), bio)
         return bio
 
     def _get_profile_image_url(self, handle: str) -> Union[str, None]:
@@ -85,6 +86,11 @@ class TwitterSaver:
             p.maker_bio = bio
             p.save()
             print(f"TwitterSaver.save_bio({p.id}): {p.maker_fullname}")
+        else: 
+            p.maker_bio = None
+            p.save()
+            print(f"TwitterSaver.save_bio({p.id}): {p.maker_fullname} has no bio")
+            
 
     def save_profile_image(self, project_id) -> None:
         Project = apps.get_model("project", "Project")
@@ -107,4 +113,8 @@ class TwitterSaver:
             p.cloudinary_maker_avatar_url = add_q_auto_to_url(
                 cloudinary_result["secure_url"]
             )
+            p.save()
+        else:
+            p.maker_avatar = None
+            p.cloudinary_maker_avatar_url = ''
             p.save()
