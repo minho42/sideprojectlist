@@ -147,9 +147,7 @@ def dashboard(request):
     template = "dashboard.html"
     context = {}
 
-    user_count = (
-        User.objects.exclude(is_superuser=True).exclude(is_active=False).count()
-    )
+    user_count = User.objects.exclude(is_superuser=True).exclude(is_active=False).count()
 
     context["user_count"] = user_count
     # context["bio_not_saved_count"] = Project.bio_not_saved_count()
@@ -170,18 +168,11 @@ class ChartDataSignupCount(APIView):
 
 
 def get_api_data_signup_count():
-    created = list(
-        User.objects.annotate(date=TruncDate("date_joined"))
-        .values("date")
-        .distinct()
-        .order_by("date")
-    )
+    created = list(User.objects.annotate(date=TruncDate("date_joined")).values("date").distinct().order_by("date"))
 
     for c in created:
         c["count"] = (
-            User.objects.filter(date_joined__gte=c["date"])
-            .filter(date_joined__lt=c["date"] + timedelta(days=1))
-            .count()
+            User.objects.filter(date_joined__gte=c["date"]).filter(date_joined__lt=c["date"] + timedelta(days=1)).count()
         )
     fill_null_in_the_gap(created, "count", 0)
     created = sorted(created, key=lambda k: k["date"])
