@@ -24,10 +24,10 @@ def generate_json(request):
     data = []
     DATA_PATH = "./frontend/data.json"
 
-    if Project.bio_not_saved_count() + Project.screenshot_not_saved_count() > 0:
+    if Project.screenshot_not_saved_count() > 0:
         messages.error(
             request,
-            f"Somethings not saved: bio {Project.bio_not_saved_count()}, screenshot {Project.screenshot_not_saved_count()}",
+            f"screenshot not saved: {Project.screenshot_not_saved_count()}",
         )
         return HttpResponseRedirect(reverse("dashboard"))
 
@@ -41,7 +41,6 @@ def generate_json(request):
             "twitter_handle": p.twitter_handle,
             "twitter_followers_count": p.twitter_followers_count,
             "github_handle": p.github_handle,
-            "bio": p.maker_bio,
             "screenshot_url": add_q_auto_to_url(p.cloudinary_screenshot_url),
             "avatar_url": add_q_auto_to_url(p.cloudinary_maker_avatar_url),
             "tags": p.tags_in_list,
@@ -73,7 +72,6 @@ def save_info_for_each(request, project_id: int):
         ss.save(project_id)
 
     ts = TwitterSaver()
-    ts.save_bio(project_id)
     ts.save_profile_image(project_id)
     messages.success(request, f"save_info_for_each({project_id})")
     return HttpResponseRedirect(reverse("dashboard"))
@@ -150,9 +148,7 @@ def dashboard(request):
     user_count = User.objects.exclude(is_superuser=True).exclude(is_active=False).count()
 
     context["user_count"] = user_count
-    # context["bio_not_saved_count"] = Project.bio_not_saved_count()
     # context["screenshot_not_saved_count"] = Project.screenshot_not_saved_count()
-    context["users_without_bio"] = Project.users_without_bio()
     context["users_without_screenshot"] = Project.users_without_screenshot()
     context["projects"] = Project.objects.order_by("-created")
 

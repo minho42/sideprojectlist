@@ -40,7 +40,7 @@
             <img class="w-full rounded-t-xl" src="{{ project.cloudinary_screenshot_url }}" alt="screenshot">
             {% else %}
             {{ project.link }}
-            {% endif  %}
+            {% endif %}
           </a>
         </div>
 
@@ -105,10 +105,6 @@
           </div>
 
           <div class="mt-2 mb-3">
-            <div class="">
-              {{ project.maker_bio|default_if_none:"" }}
-            </div>
-
             <div class="flex flex-wrap items-center mt-4">
               {% for tag in project.tags_in_list %}
               <a href="{% url 'project:tag' tag %}" class="block bg-gray-300 rounded-md px-2 mr-2 mt-2 hover:underline">

@@ -14,7 +14,6 @@ def save_info(project_id: int, screenshot=True, twitter_info=True) -> None:
 
     ts = TwitterSaver()
     if twitter_info:
-        ts.save_bio(project_id)
         ts.save_followers_count(project_id)
         ts.save_profile_image(project_id)
 

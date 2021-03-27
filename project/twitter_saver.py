@@ -24,9 +24,7 @@ class TwitterSaver:
         self.api = self._get_api()
 
     def _get_api(self) -> object:
-        auth = tweepy.OAuthHandler(
-            env("TWITTER_CONSUMER_KEY"), env("TWITTER_CONSUMER_SECRET")
-        )
+        auth = tweepy.OAuthHandler(env("TWITTER_CONSUMER_KEY"), env("TWITTER_CONSUMER_SECRET"))
         auth.set_access_token(
             env("TWITTER_ACCESS_TOKEN"),
             env("TWITTER_ACCESS_TOKEN_SECRET"),
@@ -50,15 +48,6 @@ class TwitterSaver:
             return 0
         return user.followers_count
 
-    def _get_bio(self, handle: str) -> Union[str, None]:
-        user = self._get_user(handle)
-        if not user:
-            bio = None
-        else:
-            bio = user.description
-            bio = re.sub(r"(https://t.co/\w+)", lambda x: revert_tco_url(x.group()), bio)
-        return bio
-
     def _get_profile_image_url(self, handle: str) -> Union[str, None]:
         user = self._get_user(handle)
         if not user:
@@ -75,22 +64,6 @@ class TwitterSaver:
             p.twitter_followers_count = count
             p.save()
             print(f"TwitterSaver.save_followers_count({p.id}): {p.maker_fullname}")
-
-    def save_bio(self, project_id) -> None:
-        Project = apps.get_model("project", "Project")
-        p = get_object_or_404(Project, id=project_id)
-        if not p.twitter_handle:
-            return
-        bio = self._get_bio(p.twitter_handle)
-        if bio:
-            p.maker_bio = bio
-            p.save()
-            print(f"TwitterSaver.save_bio({p.id}): {p.maker_fullname}")
-        else: 
-            p.maker_bio = None
-            p.save()
-            print(f"TwitterSaver.save_bio({p.id}): {p.maker_fullname} has no bio")
-            
 
     def save_profile_image(self, project_id) -> None:
         Project = apps.get_model("project", "Project")
@@ -110,11 +83,9 @@ class TwitterSaver:
                 path,
                 use_filename=True,
             )
-            p.cloudinary_maker_avatar_url = add_q_auto_to_url(
-                cloudinary_result["secure_url"]
-            )
+            p.cloudinary_maker_avatar_url = add_q_auto_to_url(cloudinary_result["secure_url"])
             p.save()
         else:
             p.maker_avatar = None
-            p.cloudinary_maker_avatar_url = ''
+            p.cloudinary_maker_avatar_url = ""
             p.save()

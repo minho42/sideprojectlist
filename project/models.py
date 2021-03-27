@@ -14,7 +14,6 @@ class Project(TimeStampedModel):
     slug = models.SlugField(max_length=100, allow_unicode=True)
     link = models.URLField(max_length=200, unique=True)
     maker_fullname = models.CharField(max_length=100)
-    maker_bio = models.TextField(max_length=256, null=True, blank=True)
     twitter_handle = models.CharField(max_length=20, null=True, blank=True, unique=True)
     twitter_followers_count = models.PositiveIntegerField(default=0)
     github_handle = models.CharField(max_length=20, null=True, blank=True, unique=True)
@@ -45,12 +44,6 @@ class Project(TimeStampedModel):
         return True
 
     @property
-    def is_bio_not_saved(self):
-        if self.twitter_handle and not self.maker_bio:
-            return True
-        return False
-
-    @property
     def is_avatar_not_saved(self):
         if not self.twitter_handle:
             return False
@@ -60,7 +53,7 @@ class Project(TimeStampedModel):
 
     @property
     def is_twitter_info_not_saved(self):
-        return self.is_bio_not_saved or self.is_avatar_not_saved
+        return self.is_avatar_not_saved
 
     @property
     def tags_in_list(self):
@@ -74,16 +67,8 @@ class Project(TimeStampedModel):
         return Like.objects.filter(project=self.id).count()
 
     @classmethod
-    def bio_not_saved_count(cls):
-        return Project.objects.filter(~Q(twitter_handle=None) & Q(maker_bio=None)).count()
-
-    @classmethod
     def screenshot_not_saved_count(cls):
         return Project.objects.filter(screenshot=None).count()
-
-    @classmethod
-    def users_without_bio(cls):
-        return Project.objects.filter(twitter_handle__isnull=False).filter(maker_bio__isnull=True)
 
     @classmethod
     def users_without_screenshot(cls):
