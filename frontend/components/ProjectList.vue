@@ -33,19 +33,6 @@
             
             <div v-if="!selectedTag" class="flex justify-end">
               
-              <div @click="isBioHidden = !isBioHidden" class="flex items-center cursor-pointer 
-              px-1 py-1 rounded-lg hover:bg-gray-300">
-                <div class="text-sm hidden sm:flex">
-                  {{this.isBioHidden ? 'Show' : 'Hide'}} bio
-                </div>
-                <button class="flex flex-col items-center">
-                  <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 8h10M7 12h4m1 8l-4-4H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-3l-4 4z"></path></svg>
-                  <div class="text-xs flex sm:hidden leading-3">
-                    {{this.isBioHidden ? 'Show' : 'Hide'}} bio
-                  </div>
-                </button>
-              </div>
-              
               <div @click="shuffle" class="flex items-center cursor-pointer 
               px-1 py-1 rounded-lg hover:bg-gray-300 sm:ml-2">
                 <div class="text-sm hidden sm:flex">
@@ -101,7 +88,6 @@
         v-bind="data"
         :key="data.id"
         :selectedTag="selectedTag"
-        :isBioHidden="isBioHidden"
       />
     </div>
   </div>
@@ -116,7 +102,6 @@ export default {
   data() {
     return {
       selectedTag: '',
-      isBioHidden: true,
     };
   },
   components: {

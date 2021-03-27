@@ -28,10 +28,6 @@
         </div>
 
         <div class="mt-1 mb-1">
-          <div v-if="!isBioHidden" class="">
-            {{ bio }}
-          </div>
-
           <div class="flex flex-wrap items-center mt-2">
             <div @click="$emit('setSelectedTag', tag)" v-for="tag in tags" :key="tag" 
             class="block bg-gray-300 hover:bg-gray-400 cursor-pointer rounded-lg px-2 mr-2 mt-2"
@@ -72,14 +68,12 @@ export default {
     slug: String,
     link: String,
     fullname: String,
-    bio: String,
     twitter_handle: String,
     github_handle: String,
     screenshot_url: String,
     avatar_url: String,
     tags: Array,
     selectedTag: String,
-    isBioHidden: Boolean,
   },
   computed: {
     githubUrl() {
