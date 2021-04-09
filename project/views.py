@@ -23,11 +23,7 @@ class ProjectTagView(ListView):
     context_object_name = "projects"
 
     def get_queryset(self):
-        return (
-            Project.objects.filter(is_approved=True)
-            .filter(tags__icontains=self.kwargs["tag"])
-            .order_by("-created")
-        )
+        return Project.objects.filter(is_approved=True).filter(tags__icontains=self.kwargs["tag"]).order_by("-created")
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -51,7 +47,6 @@ class ProjectCreateView(CreateView):
         "maker_fullname",
         "twitter_handle",
         "github_handle",
-        "producthunt_handle",
         "tags",
     ]
     # form_class = ProjectCreateForm
