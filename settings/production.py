@@ -14,7 +14,7 @@ import sentry_sdk
 from sentry_sdk.integrations.django import DjangoIntegration
 
 sentry_sdk.init(
-    dsn="https://7e1ad01b17c94331b449f6ac42e8b34d@o410328.ingest.sentry.io/5494610",
+    dsn=env("SENTRY_DSN"),
     integrations=[DjangoIntegration(), CeleryIntegration(), RedisIntegration()],
     traces_sample_rate=1.0,
     # If you wish to associate users to errors (assuming you are using
