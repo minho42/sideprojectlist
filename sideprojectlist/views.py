@@ -168,7 +168,9 @@ def get_api_data_signup_count():
 
     for c in created:
         c["count"] = (
-            User.objects.filter(date_joined__gte=c["date"]).filter(date_joined__lt=c["date"] + timedelta(days=1)).count()
+            User.objects.filter(date_joined__gte=c["date"])
+            .filter(date_joined__lt=c["date"] + timedelta(days=1))
+            .count()
         )
     fill_null_in_the_gap(created, "count", 0)
     created = sorted(created, key=lambda k: k["date"])

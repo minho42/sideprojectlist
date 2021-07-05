@@ -133,9 +133,7 @@ var vm = new Vue({
           console.log(response.data);
         })
         .catch((error) => {
-          console.log(
-            "saveScreenshotForAll().axios.get error: " + error.message
-          );
+          console.log("saveScreenshotForAll().axios.get error: " + error.message);
         });
     },
     saveTwitterInfoForAll() {
@@ -146,9 +144,7 @@ var vm = new Vue({
           console.log(response.data);
         })
         .catch((error) => {
-          console.log(
-            "saveTwitterInfoForAll().axios.get error: " + error.message
-          );
+          console.log("saveTwitterInfoForAll().axios.get error: " + error.message);
         });
     },
     getSignupCount() {
