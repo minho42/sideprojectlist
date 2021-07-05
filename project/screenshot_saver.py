@@ -7,6 +7,7 @@ from django.apps import apps
 from django.core.files import File
 from django.core.files.temp import NamedTemporaryFile
 from django.shortcuts import get_object_or_404
+from selenium.common.exceptions import WebDriverException
 
 
 class ScreenshotSaver:
@@ -18,7 +19,12 @@ class ScreenshotSaver:
         Project = apps.get_model("project", "Project")
         p = get_object_or_404(Project, id=project_id)
         print(f"ScreenshotSaver.save({p.id}): {p.maker_fullname}")
-        self.driver.get(p.link)
+        try:
+            self.driver.get(p.link)
+        except WebDriverException:
+            print(f"WebDriverException getting [{p.maker_fullname}]: {p.link}")
+            # TODO: Remove previous files on local and cloudinary
+            return
         time.sleep(4)
         raw_image = self.driver.get_screenshot_as_png()
         temp = NamedTemporaryFile(delete=True)
@@ -40,7 +46,10 @@ class ScreenshotSaver:
         self.driver.get_screenshot_as_file(path)
 
         # TODO catch FileNotFoundError
-        cloudinary_result = cloudinary.uploader.upload(path, use_filename=True,)
+        cloudinary_result = cloudinary.uploader.upload(
+            path,
+            use_filename=True,
+        )
         p.cloudinary_screenshot_url = add_q_auto_to_url(cloudinary_result["secure_url"])
         p.save()
 
