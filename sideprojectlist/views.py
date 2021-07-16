@@ -22,7 +22,7 @@ from sideprojectlist.celery import app
 @user_passes_test(staff_check)
 def generate_json(request):
     data = []
-    DATA_PATH = "./frontend/data.json"
+    DATA_PATH = "./frontend/src/data.json"
 
     if Project.screenshot_not_saved_count() > 0:
         messages.error(
