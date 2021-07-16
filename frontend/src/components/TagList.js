@@ -4,10 +4,11 @@ const TagList = ({ data, selectedTag, setSelectedTag }) => {
     data.filter((project) => {
       return project.tags.filter((tag) => {
         if (uniqueTags.some((t) => t.name.toLowerCase() === tag.toLowerCase())) {
-          uniqueTags.find((o) => {
+          return uniqueTags.find((o) => {
             if (o.name.toLowerCase() === tag.toLowerCase()) {
               return (o.count += 1);
             }
+            return o;
           });
         } else {
           return uniqueTags.push({ name: tag, count: 1 });
