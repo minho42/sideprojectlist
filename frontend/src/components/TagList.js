@@ -39,7 +39,9 @@ const TagList = ({ data, selectedTag, setSelectedTag }) => {
             onClick={handleTagSelect}
             className={`flex items-center cursor-pointer rounded-xl font-medium text-sm px-2 py-1 mr-1 mt-1 
             ${
-              tag.name === selectedTag ? "bg-purple-300 hover:bg-purple-400" : "bg-gray-200 hover:bg-gray-300"
+              tag.name === selectedTag
+                ? "bg-purple-300 sm:hover:bg-purple-400"
+                : "bg-gray-200 sm:hover:bg-gray-300"
             }
           `}
           >

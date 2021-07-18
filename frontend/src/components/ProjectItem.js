@@ -56,8 +56,8 @@ const ProjectItem = ({
                     className={`block cursor-pointer rounded-xl font-medium text-sm px-2 py-1 mr-2 mt-2
                       ${
                         selectedTag === tag
-                          ? "bg-purple-300 hover:bg-purple-400"
-                          : "bg-gray-200 hover:bg-gray-300"
+                          ? "bg-purple-300 sm:hover:bg-purple-400"
+                          : "bg-gray-200 sm:hover:bg-gray-300"
                       }
                       `}
                   >
