@@ -67,13 +67,13 @@ def about(request):
 
 
 @user_passes_test(staff_check)
-def save_info_for_each(request, project_id: int):
+def save_info_for_each(request, id: int):
     with ScreenshotSaver() as ss:
-        ss.save(project_id)
+        ss.save(id)
 
     ts = TwitterSaver()
-    ts.save_profile_image(project_id)
-    messages.success(request, f"save_info_for_each({project_id})")
+    ts.save_profile_image(id)
+    messages.success(request, f"save_info_for_each({id})")
     return HttpResponseRedirect(reverse("dashboard"))
 
 
