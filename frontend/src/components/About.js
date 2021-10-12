@@ -13,7 +13,7 @@ const About = () => {
           uses.tech
         </a>
         but for
-        <span className="font-semibold bg-purple-100 py-1">/projects.</span>
+        <span className="font-semibold bg-purple-100 py-1 ml-1">/projects.</span>
       </div>
 
       <div className="mb-2">
