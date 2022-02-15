@@ -100,7 +100,7 @@ class AsyncSaveTwitterInfoForAll(APIView):
 
 @user_passes_test(staff_check)
 def async_save_info_for_all(request):
-    screenshot = False
+    screenshot = True
     twitter_info = True
     save_info_for_all.apply_async(
         args=(screenshot, twitter_info),
