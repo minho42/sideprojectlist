@@ -1,3 +1,5 @@
+import { UserCircleIcon } from "@heroicons/react/solid";
+
 const ProjectItem = ({
   item: { link, fullname, twitter_handle, github_handle, screenshot_url, avatar_url, tags },
   selectedTag,
@@ -27,18 +29,7 @@ const ProjectItem = ({
               {avatar_url ? (
                 <img className="w-8 rounded-full mr-1" src={avatar_url} alt="twitter avatar" />
               ) : (
-                <svg
-                  className="w-8 mr-1 text-gray-400"
-                  xmlns="http://www.w3.org/2000/svg"
-                  viewBox="0 0 20 20"
-                  fill="currentColor"
-                >
-                  <path
-                    fillRule="evenodd"
-                    d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-6-3a2 2 0 11-4 0 2 2 0 014 0zm-2 4a5 5 0 00-4.546 2.916A5.986 5.986 0 0010 16a5.986 5.986 0 004.546-2.084A5 5 0 0010 11z"
-                    clipRule="evenodd"
-                  />
-                </svg>
+                <UserCircleIcon className="w-8 mr-1 text-gray-400" />
               )}
             </div>
 
@@ -46,14 +37,14 @@ const ProjectItem = ({
           </div>
 
           <div className="my-1">
-            <div className="flex flex-wrap items-center mt-2">
+            <div className="flex flex-wrap items-center mt-2 gap-1">
               {tags.map((tag) => {
                 return (
                   <div
                     key={tag}
                     value={tag}
                     onClick={handleTagSelect}
-                    className={`block cursor-pointer rounded-xl font-medium text-sm px-2 py-1 mr-2 mt-2
+                    className={`block cursor-pointer rounded-xl font-medium text-sm px-2 py-1
                       ${
                         selectedTag === tag
                           ? "bg-purple-300 sm:hover:bg-purple-400"
@@ -67,7 +58,7 @@ const ProjectItem = ({
               })}
             </div>
 
-            <div className="flex flex-wrap items-center justify-center space-x-4 mt-4 text-xs text-gray-500">
+            <div className="flex flex-wrap items-center justify-center space-x-4 mt-4 text-sm text-gray-500">
               {twitter_handle ? (
                 <div>
                   <a

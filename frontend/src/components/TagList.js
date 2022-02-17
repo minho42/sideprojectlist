@@ -30,14 +30,14 @@ const TagList = ({ data, selectedTag, setSelectedTag }) => {
   };
 
   return (
-    <div className="flex items-center flex-wrap mb-6">
+    <div className="flex items-center flex-wrap mb-6 gap-1">
       {uniqueTags.map((tag) => {
         return (
           <div
             key={tag.name}
             value={tag.name}
             onClick={handleTagSelect}
-            className={`flex items-center cursor-pointer rounded-xl font-medium text-sm px-2 py-1 mr-1 mt-1 
+            className={`flex items-center cursor-pointer rounded-xl font-medium text-sm px-2 py-1
             ${
               tag.name === selectedTag
                 ? "bg-purple-300 sm:hover:bg-purple-400"

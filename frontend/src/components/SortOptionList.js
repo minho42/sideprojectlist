@@ -1,3 +1,7 @@
+import { RefreshIcon } from "@heroicons/react/outline";
+import { SortAscendingIcon } from "@heroicons/react/outline";
+import { SortDescendingIcon } from "@heroicons/react/outline";
+
 const SortOptionList = ({ data, setData }) => {
   const shuffle = () => {
     const sorted = [...data].sort(() => {
@@ -27,18 +31,20 @@ const SortOptionList = ({ data, setData }) => {
   const optionItems = [
     {
       name: "Shuffle",
-      svgPath:
-        "M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15",
+      icon: <RefreshIcon className="w-8 h-8" />,
+
       handleClick: shuffle,
     },
     {
       name: "A-Z",
-      svgPath: "M3 4h13M3 8h9m-9 4h6m4 0l4-4m0 0l4 4m-4-4v12",
+      icon: <SortAscendingIcon className="w-8 h-8" />,
       handleClick: sortAlphabetically,
     },
     {
       name: "Followers",
-      svgPath: "M3 4h13M3 8h9m-9 4h9m5-4v12m0 0l-4-4m4 4l4-4",
+      // svgPath: "M3 4h13M3 8h9m-9 4h9m5-4v12m0 0l-4-4m4 4l4-4",
+      icon: <SortDescendingIcon className="w-8 h-8" />,
+
       handleClick: sortTwitterFollowersCount,
     },
   ];
@@ -55,15 +61,7 @@ const SortOptionList = ({ data, setData }) => {
           >
             <div className="text-sm hidden sm:flex">{item.name}</div>
             <button className="flex flex-col items-center">
-              <svg
-                className="w-8 h-8"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d={item.svgPath}></path>
-              </svg>
+              {item.icon}
               <div className="text-xs flex sm:hidden">{item.name}</div>
             </button>
           </div>
