@@ -58,7 +58,8 @@ class Project(TimeStampedModel):
     @property
     def tags_in_list(self):
         try:
-            return self.tags.rstrip(",").split(",")
+            temp_tags = self.tags.strip().rstrip(",").split(",")
+            return [tag.strip().lower() for tag in temp_tags]
         except AttributeError:
             return ""
 
