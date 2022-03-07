@@ -10,7 +10,7 @@ const ProjectItem = ({
   };
 
   return (
-    <div className="flex flex-col items-center justify-start sm:w-1/2 md:w-1/3 lg:w-1/4">
+    <div className="flex flex-col items-center justify-start sm:w-1/2 md:w-1/3 lg:w-1/4 max-w-sm">
       <div className="border border-gray-400 mx-1 sm:mx-2 my-4 sm:my-3 bg-white rounded-xl shadow-lg">
         <div className="border-b border-gray-400 ">
           <a
