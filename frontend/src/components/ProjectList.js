@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import ProjectItem from "./ProjectItem";
 import ProjectCounter from "./ProjectCounter";
 import TagList from "./TagList";
@@ -6,8 +6,15 @@ import SortOptionList from "./SortOptionList";
 import projectData from "../data.json";
 
 const ProjectList = () => {
-  const [data, setData] = useState(projectData);
+  const [data, setData] = useState([]);
   const [selectedTag, setSelectedTag] = useState("");
+
+  useEffect(() => {
+    const sorted = [...projectData].sort(() => {
+      return Math.random() - 0.5;
+    });
+    setData(sorted);
+  }, []);
 
   const dataFilteredByTag = () => {
     if (!selectedTag | (selectedTag === "all")) {
