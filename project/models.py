@@ -1,3 +1,4 @@
+import os
 from django.conf import settings
 from django.db import models
 from django.db.models.signals import post_save
@@ -7,15 +8,14 @@ from django.utils.text import slugify
 from sideprojectlist.models import TimeStampedModel
 from django.db.models import Q
 from django.core.files.storage import get_storage_class
+from django.core.files.storage import FileSystemStorage
 from .tasks import save_info
 
 # https://stackoverflow.com/questions/9522759/imagefield-overwrite-image-file-with-same-name
-class OverwriteStorage(get_storage_class()):
-    def _save(self, name, content):
-        self.delete(name)
-        return super(OverwriteStorage, self)._save(name, content)
-
+class OverwriteStorage(FileSystemStorage):
     def get_available_name(self, name, max_length=None):
+        if self.exists(name):
+            os.remove(os.path.join(settings.MEDIA_ROOT, name))
         return name
 
 
