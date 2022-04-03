@@ -36,9 +36,11 @@ class TwitterSaver:
 
     def _get_user(self, handle: str) -> Union[object, None]:
         try:
-            user = self.api.get_user(handle)
-        except TweepyException:
-            print(f"handle: {handle}")
+            # https://docs.tweepy.org/en/stable/getting_started.html?#api
+            user = self.api.get_user(screen_name=handle)
+        except TweepyException as e:
+            print(f"TweepyException handle: {handle}")
+            print(e)
             user = None
         return user
 
