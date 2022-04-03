@@ -14,7 +14,7 @@
 {% endblock stylesheet%}
 
 {% block content %}
-<div id="dashboard" class="">
+<div id="dashboard" class="text-sm">
   <div class="text-2xl font-semibold">Users ({{ user_count }})</div>
   <div class="">
     <div class="signupcount-linechart-container" style="height: 180px;">
@@ -26,18 +26,18 @@
   <div class="flex flex-col items-center justify-center text-center w-1/2 mt-4 ">
 
     <button @click="saveInfoForAll"
-      class="bg-blue-600 hover:bg-blue-500 text-white px-4 py-2 mt-2 rounded-lg tracking-wide">
-      Save screenshot/twitter_info for all (async)
+      class="bg-pink-600 hover:bg-pink-500 text-white px-4 py-2 mt-2 rounded-lg tracking-wide">
+      Save screenshot / twitter_info (avatar, follower) for all (async)
     </button>
 
     <button @click="saveScreenshotForAll"
-      class="bg-blue-600 hover:bg-blue-500 text-white px-4 py-2 mt-2 rounded-lg tracking-wide">
+      class="bg-yellow-600 hover:bg-yellow-500 text-white px-4 py-2 mt-2 rounded-lg tracking-wide">
       Save screenshot for all (async)
     </button>
 
     <button @click="saveTwitterInfoForAll"
       class="bg-blue-600 hover:bg-blue-500 text-white px-4 py-2 mt-2 rounded-lg tracking-wide">
-      Save twitter_info for all (async)
+      Save twitter_info (avatar, follower) for all (async)
     </button>
 
     <a href="{% url 'generate-json' %}"
@@ -51,7 +51,9 @@
       </div>
       {% if users_without_screenshot %}
       {% for user in users_without_screenshot %}
-      {{user.maker_fullname}}
+      <p>
+        {{user.maker_fullname}}
+      </p>
       {% endfor %}
       {% endif %}
     </div>
