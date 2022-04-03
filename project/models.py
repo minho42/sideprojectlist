@@ -15,7 +15,7 @@ class OverwriteStorage(get_storage_class()):
         self.delete(name)
         return super(OverwriteStorage, self)._save(name, content)
 
-    def get_available_name(self, name):
+    def get_available_name(self, name, max_length=None):
         return name
 
 
