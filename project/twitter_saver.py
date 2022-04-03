@@ -13,7 +13,7 @@ from core.utils import (
 )
 from django.apps import apps
 from django.shortcuts import get_object_or_404
-from tweepy.error import TweepError
+from tweepy.errors import TweepyException
 
 env = environ.Env()
 environ.Env.read_env()
@@ -37,7 +37,7 @@ class TwitterSaver:
     def _get_user(self, handle: str) -> Union[object, None]:
         try:
             user = self.api.get_user(handle)
-        except TweepError:
+        except TweepyException:
             print(f"handle: {handle}")
             user = None
         return user
