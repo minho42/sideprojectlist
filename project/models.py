@@ -6,8 +6,17 @@ from django.urls import reverse
 from django.utils.text import slugify
 from sideprojectlist.models import TimeStampedModel
 from django.db.models import Q
-
+from django.core.files.storage import get_storage_class
 from .tasks import save_info
+
+# https://stackoverflow.com/questions/9522759/imagefield-overwrite-image-file-with-same-name
+class OverwriteStorage(get_storage_class()):
+    def _save(self, name, content):
+        self.delete(name)
+        return super(OverwriteStorage, self)._save(name, content)
+
+    def get_available_name(self, name):
+        return name
 
 
 class Project(TimeStampedModel):
@@ -18,8 +27,8 @@ class Project(TimeStampedModel):
     twitter_followers_count = models.PositiveIntegerField(default=0)
     github_handle = models.CharField(max_length=20, null=True, blank=True, unique=True)
     is_approved = models.BooleanField(default=True)
-    screenshot = models.ImageField(upload_to="screenshot/", null=True, blank=True)
-    maker_avatar = models.ImageField(upload_to="avatar/", null=True, blank=True)
+    screenshot = models.ImageField(upload_to="screenshot/", null=True, blank=True, storage=OverwriteStorage)
+    maker_avatar = models.ImageField(upload_to="avatar/", null=True, blank=True, storage=OverwriteStorage)
     tags = models.CharField(max_length=256, null=True, blank=True, help_text="Comma separated strings")
     cloudinary_screenshot_url = models.URLField(max_length=200, null=True, blank=True)
     cloudinary_maker_avatar_url = models.URLField(max_length=200, null=True, blank=True)
