@@ -47,7 +47,7 @@ psycopg2==2.9.3
 psycopg2-binary==2.9.3
 py==1.11.0
 pycparser==2.21
-PyJWT==2.3.0
+PyJWT==2.4.0
 pyOpenSSL==22.0.0
 pyparsing==3.0.7
 PySocks==1.7.1
