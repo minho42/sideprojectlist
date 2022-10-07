@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+
+{% block title %}Delete{% endblock title %}
+
+{% block content %}
+<div class="">
+  <div class="">
+    <form method="post">
+      {% csrf_token %}
+      <div class="">
+        <div class="">
+          <h5 class="">We're sorry to see you go</h5>
+          <hr>
+          <p class="">Hi {{ u }},</p>
+          <p class="">Are you sure you want to delete your account?</p>
+          <div class="">
+            <a href="{{request.META.HTTP_REFERER}}" class="">Cancel</a>
+            <input type="submit" value="Delete" class="">
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+
+{% endblock content %}

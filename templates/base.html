@@ -1,0 +1,88 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+  <meta content="en" name="language">
+
+  <meta name="msvalidate.01" content="" />
+
+  <!-- SEO -->
+  <meta class="swiftype" name="title" data-type="string" content="">
+  <meta class="swiftype" name="description" data-type="string" content="">
+  <meta name="keywords" content="">
+  <meta name="robots" content="nofollow">
+
+  {% block stylesheet %}{% endblock stylesheet%}
+
+  <link rel="stylesheet" href="{% static 'css/tailwind-output.css' %}">
+  <script src="https://cdn.jsdelivr.net/npm/vue@2.6.12/dist/vue.js"></script>
+  <!-- <script src="https://cdn.jsdelivr.net/npm/vue@2.6.12"></script> -->
+
+  <title>Side Project List: {% block title %}{% endblock title %}</title>
+</head>
+
+<!-- <body class="text-gray-800 text-lg" style="background-color: #f0f2f5"> -->
+
+<body class="text-gray-800 text-lg">
+  {% include './navbar.html' %}
+
+  <!-- 
+    django  levels:
+    DEBUG, INFO, SUCCESS, WARNING, ERROR
+    -->
+
+  {% if messages %}
+  <div class="z-50 text-center flex flex-col">
+    {% for message in messages %}
+    <div class="
+    {% if message.tags == 'success' %}  bg-green-100 border-green-400 text-green-800
+    {% elif message.tags == 'error' %} bg-red-100 border-red-400 text-red-800
+    {% elif message.tags == 'warning' %} bg-yellow-100 border-yellow-400 text-yellow-800
+    {% elif message.tags == 'info' %} bg-blue-100 border-blue-400 text-blue-800
+    {% else %} bg-blue-100 border-blue-400 text-blue-800
+    {% endif %}
+     border px-4 py-3 rounded relative" role="alert">
+      <span class="block sm:inline">{{ message.tags }} {{ message }}</span>
+      <span class="absolute top-0 bottom-0 right-0 px-4 py-3 text-gray-600 hover:text-gray-800 ">
+        <svg id="message{{ forloop.counter }}" onclick="hideThisMessage(this.id)" class="fill-current w-5 h-5"
+          role="button" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+          <path
+            d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" />
+        </svg>
+      </span>
+    </div>
+    {% endfor %}
+  </div>
+  {% endif %}
+
+  <div class="mb-6">
+    {% block content %}
+    <!-- <h4><span class="label label-primary">block from base.html</span></h4> -->
+    {% endblock content %}
+  </div>
+
+  <!-- this button must come before 'scriptjs' -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.20.0/axios.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.20/lodash.min.js"></script>
+  {% block javascript %}{% endblock javascript %}
+  <!-- javascript block must come after all the other scripts-->
+
+
+  <script>
+    // hide selected django message
+    function hideThisMessage(id) {
+      console.log(id);
+      document.querySelector(`#${id}`).parentElement.parentElement.style.display = "none";
+    }
+
+  </script>
+
+</body>
+
+</html>

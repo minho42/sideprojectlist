@@ -1,0 +1,21 @@
+{% extends './base.html' %}
+{% load tz %}
+{% load i18n %}
+{% load humanize %}
+{% load crispy_forms_tags %}
+{% load account socialaccount %}
+
+{% block title %}{{ block.super }}{% endblock title %}
+
+{% block stylesheet %}
+
+{% endblock stylesheet %}
+{% block content %}
+{{ block.super }}
+
+
+<div class="row justify-content-center">
+  <h1>home</h1>
+</div>
+
+{% endblock content %}

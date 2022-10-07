@@ -1,0 +1,99 @@
+{% extends "base.html" %}
+{% load static %}
+{% load cloudinary %}
+
+{% block title %}List of awesome side projects{% endblock title %}
+
+{% block content %}
+<div id="project-list" class="mx-2">
+  <div class="flex items-center justify-between pt-4 pb-2 mx-4">
+    <div class="flex items-center justify-start text-2xl font-semibold">
+      {% if tag_selected %}
+      <div class="">
+        <a href="{% url 'project:list' %}" class="text-indigo-700 hover:text-indigo-700 hover:underline">
+          Projects
+        </a>
+        / {{ tag_selected }} ({{ projects|length }})
+      </div>
+      {% else %}
+      <div>
+        Projects ({{ projects|length }})
+      </div>
+      {% endif %}
+
+    </div>
+
+    <div class="text-sm font-semibold text-gray-600">
+      Sort by...
+    </div>
+  </div>
+
+  <div class="flex flex-wrap">
+    {% if projects %}
+    {% for project in projects %}
+    <div class="flex flex-col items-center justify-start sm:w-1/2 md:w-1/3">
+      <div class="border border-gray-400 mx-3 my-3 bg-white rounded-xl shadow-lg">
+        <div class="border-b border-gray-400 ">
+          <a href="{{ project.link }}" target="_blank" rel="noopener noreferrer"
+            class="flex flex-col items-center justify-center text-indigo-700 hover:text-indigo-700 hover:underline">
+            {% if project.cloudinary_screenshot_url %}
+            <img class="w-full rounded-t-xl" src="{{ project.cloudinary_screenshot_url }}" alt="screenshot">
+            {% else %}
+            {{ project.link }}
+            {% endif %}
+          </a>
+        </div>
+
+        <div class="px-4 py-3">
+          <div class="flex items-center justify-start flex-wrap">
+            <div class="flex-shrink-0">
+              {% if project.cloudinary_maker_avatar_url %}
+              <img class="w-8 rounded-full mr-1" src="{{ project.cloudinary_maker_avatar_url }}" alt="twitter avatar">
+              {% else %}
+              <!-- user-circle -->
+              <svg class="w-8 mr-1 text-gray-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"
+                fill="currentColor">
+                <path fillRule="evenodd"
+                  d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-6-3a2 2 0 11-4 0 2 2 0 014 0zm-2 4a5 5 0 00-4.546 2.916A5.986 5.986 0 0010 16a5.986 5.986 0 004.546-2.084A5 5 0 0010 11z"
+                  clipRule="evenodd" />
+              </svg>
+              {% endif %}
+            </div>
+
+
+            <div class="text-2xl font-bold">
+              {{ project.maker_fullname }}
+            </div>
+
+            {% if project.twitter_handle %}
+            <div class="ml-1 flex">
+              <a href="https://twitter.com/{{ project.twitter_handle }}" target="_blank" rel="noopener noreferrer"
+                class="flex-wrap text-indigo-700 hover:text-indigo-700 hover:underline">
+                @{{ project.twitter_handle|truncatechars:"18" }}
+              </a>
+            </div>
+            {% endif %}
+
+          </div>
+
+          <div class="mt-2 mb-3">
+            <div class="flex flex-wrap items-center mt-4">
+              {% for tag in project.tags_in_list %}
+              <a href="{% url 'project:tag' tag %}" class="block bg-gray-300 rounded-md px-2 mr-2 mt-2 hover:underline">
+                {{ tag }}
+              </a>
+              {% endfor %}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+    {% else %}
+    <div class="text-2xl pt-4 mx-4">
+      No projects...
+    </div>
+    {% endif %}
+  </div>
+</div>
+{% endblock content %}

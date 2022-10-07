@@ -1,0 +1,28 @@
+{% load static %}
+
+<div class="">
+  <div class="">
+
+    <div class="">
+      <span class="">{{ u.initial }}</span>
+    </div>
+
+    <div class="">
+      <span class="">{{ u.get_full_name }}</span>
+      <span class="">({{ u.get_username|truncatechars:18 }})</span>
+
+      {% if u.bio %}
+      <div class="">
+        <div>Bio: {{ u.bio }}</div>
+      </div>
+      {% endif %}
+
+      {% if u.website %}
+      <div class="">
+        <div>{{ u.website }}</div>
+      </div>
+      {% endif %}
+    </div>
+
+  </div>
+</div>

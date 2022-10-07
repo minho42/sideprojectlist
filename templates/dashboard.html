@@ -1,0 +1,101 @@
+{% extends 'base.html' %}
+{% load humanize %}
+{% load static %}
+
+{% block title %}Dashboard{% endblock title %}
+
+{% block javascript %}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.min.js"></script>
+<script src="{% static 'js/dashboard.js' %}"></script>
+{% endblock javascript %}
+
+{% block stylesheet %}
+<meta name="robots" content="noindex">
+{% endblock stylesheet%}
+
+{% block content %}
+<div id="dashboard" class="text-sm">
+  <div class="text-2xl font-semibold">Users ({{ user_count }})</div>
+  <div class="">
+    <div class="signupcount-linechart-container" style="height: 180px;">
+      <signupcount-linechart :name='signupCountName' :labels='signupDateLabels' :series='signupCountSeries'>
+      </signupcount-linechart>
+    </div>
+  </div>
+
+  <div class="flex flex-col items-center justify-center text-center w-1/2 mt-4 ">
+
+    <button @click="saveInfoForAll"
+      class="bg-pink-600 hover:bg-pink-500 text-white px-4 py-2 mt-2 rounded-lg tracking-wide">
+      Save screenshot / twitter_info (avatar, follower) for all (async)
+    </button>
+
+    <button @click="saveScreenshotForAll"
+      class="bg-yellow-600 hover:bg-yellow-500 text-white px-4 py-2 mt-2 rounded-lg tracking-wide">
+      Save screenshot for all (async)
+    </button>
+
+    <button @click="saveTwitterInfoForAll"
+      class="bg-blue-600 hover:bg-blue-500 text-white px-4 py-2 mt-2 rounded-lg tracking-wide">
+      Save twitter_info (avatar, follower) for all (async)
+    </button>
+
+    <a href="{% url 'generate-json' %}"
+      class="bg-green-600 hover:bg-green-500 text-white px-4 py-2 mt-2 rounded-lg tracking-wide">
+      Generate json (sync)
+    </a>
+
+    <div class="mt-6">
+      <div class="text-lg font-semibold">
+        Users without screenshot ({{users_without_screenshot|length}})
+      </div>
+      {% if users_without_screenshot %}
+      {% for user in users_without_screenshot %}
+      <p>
+        {{user.maker_fullname}}
+      </p>
+      {% endfor %}
+      {% endif %}
+    </div>
+
+    <div class="mt-6">
+      <div class="text-lg font-semibold">
+        Projects ({{projects|length}})
+      </div>
+      {% if projects %}
+      {% for project in projects %}
+      <div class="flex items-center mt-1">
+        {{ project.id }}
+        {{ project.maker_fullname }}
+
+
+        {% if project.is_screenshot_not_saved %}
+        <div class="bg-red-600 text-white rounded-lg ml-2 px-2">
+          screenshot: x
+        </div>
+        {% endif %}
+
+        {% if project.is_avatar_not_saved %}
+        <div class="bg-red-600 text-white rounded-lg ml-2 px-2">
+          avatar: x
+        </div>
+        {% endif %}
+
+
+        <a href="{% url 'save-info-for-each' project.id %}" class="{% if project.is_screenshot_not_saved or project.is_twitter_info_not_saved %}
+          bg-indigo-600 
+          {% else %}
+          bg-gray-600 
+          {% endif %}
+          text-white px-2 py-1 ml-2 rounded">Fetch screenshot (sync)</a>
+      </div>
+      {% endfor %}
+      {% endif %}
+    </div>
+
+  </div>
+
+</div>
+
+
+{% endblock content %}
