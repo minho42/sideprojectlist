@@ -3,7 +3,6 @@ asgiref==3.5.0
 async-generator==1.10
 async-timeout==4.0.2
 attrs==21.4.0
-backports.zoneinfo==0.2.1
 billiard==3.6.4.0
 black==22.3.0
 celery==5.2.3

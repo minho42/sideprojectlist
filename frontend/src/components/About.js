@@ -15,20 +15,8 @@ const About = () => {
         but for
         <span className="font-semibold bg-purple-100 py-1 ml-1">/projects.</span>
       </div>
-
-      <div className="mb-2">
-        Made by
-        <a
-          href="https://twitter.com/minhokim42"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="inline-flex items-center text-purple-700 hover:text-purple-700 hover:underline ml-1"
-        >
-          Minho
-        </a>
-      </div>
     </div>
-  );
-};
+  )
+}
 
-export default About;
+export default About
